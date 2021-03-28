@@ -59,8 +59,6 @@ const loginCustomer = (req, cb) => {
 
   console.log(email);
   const checkCustomer = "SELECT * FROM customers WHERE customer_email = ?";
-  //   const LoginCustomer =
-  //     "SELECT * FROM customers WHERE customer_email = ? AND customer_password = ?";
 
   db.query(checkCustomer, [email], (err, result) => {
     console.log(result);

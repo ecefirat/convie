@@ -70,14 +70,14 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  console.log("boobies");
   db.loginCustomer(req, (cb) => {
     if (cb === 400) {
       res.status(400).send({ message: "login failed" });
     } else if (cb === 404) {
       res.status(404).send({ message: "user does not exist" });
     } else if (cb === 200) {
-      res.status(200).send({ message: "lachie" });
+      res.status(200).send({ message: "done" });
+      console.log("lach");
     } else {
       res.status(418).send({ message: "tea" });
     }
@@ -89,7 +89,6 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/products", (req, res) => {
-  console.log("hop");
   db.showProducts((cb) => {
     if (cb === 405) {
       res.status(405).send({ message: "failed" });
@@ -100,51 +99,24 @@ app.get("/products", (req, res) => {
   });
 });
 
-app.listen(Port, () => {
-  console.log(`it's listening on port ${Port}`);
-  // console.log(data);
-});
-
-// app.post("/register", (req, res) => {
-//   let sql =
-//     "INSERT INTO customers(customer_name, customer_surname, customer_email, customer_password) VALUES (?);";
-//   let values = [
-//     req.body.first_name,
-//     req.body.last_name,
-//     req.body.email,
-//     req.body.password,
-//     req.body.confirmpassword,
-//   ];
-//   db.query(sql, [values], (err, results) => {
-//     if (err) {
-//       console.log(err);
+// app.post("/order", (req, res) => {
+//   db.sendOrder(req, res, (cb) => {
+//     if (cb === 400) {
+//       res.status(400).send({ message: "order failed" });
+//     } else if (cb === 200) {
+//       res.status(200).send({ message: "order sent" });
 //     } else {
-//       console.log("success");
-//       res.status(200).send();
+//       console.log("sth wrong");
 //     }
 //   });
 // });
+
+app.listen(Port, () => {
+  console.log(`it's listening on port ${Port}`);
+});
 
 // error handling
 // app.use((err, req, res, next) => {
 //   console.error(err.stack);
 //   res.status(500).send(`the error is:  ${err.stack}`);
-// });
-
-// app.post("/register", (req, res) => {
-//   const first_name = req.body.first_name;
-//   const last_name = req.body.last_name;
-//   const email = req.body.email;
-//   const password = req.body.password;
-
-//   const registerCustomer =
-//     "INSERT INTO customers(customer_name, customer_surname, customer_email, customer_password) VALUES (?, ?, ?, ?);";
-//   db.query(
-//     registerCustomer,
-//     [first_name, last_name, email, password],
-//     (err, result) => {
-//       console.log(err);
-//       console.log(result);
-//     }
-//   );
 // });

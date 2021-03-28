@@ -1,35 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Products from "../Products/Products";
 
-// const products = [
-//   {
-//     id: 1,
-//     name: "Almond Milk",
-//     price: 2.99,
-//     imgUrl: "./images/almondmilk.jpg",
-//   },
-//   { id: 2, name: "Oat Milk", price: 3.99, imgUrl: "./images/oatmilk.jpg" },
-//   {
-//     id: 3,
-//     name: "Maca Milk",
-//     price: 4.99,
-//     imgUrl: "./images/macamilk.jpg",
-//   },
-//   {
-//     id: 4,
-//     name: "Berries",
-//     price: 5.99,
-//     imgUrl: "./images/frozenberries.jpg",
-//   },
-//   { id: 5, name: "Bananas", price: 6.99, imgUrl: "./images/bananas.jpg" },
-//   { id: 6, name: "Ben&Jerry", price: 7.99, imgUrl: "./images/benjerry.jpg" },
-// ];
-
 function Main() {
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [loaded, setLoaded] = useState(false);
-  const [total, setTotal] = useState("");
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     async function fetchAPI() {
@@ -46,11 +22,14 @@ function Main() {
           if (res.status === 405) {
             res.json().then((data) => {
               console.log(data);
+              console.log("this is products data /error 405");
             });
           } else if (res.status === 200) {
             res.json().then((data) => {
               setProducts(data.prod);
               setLoaded(true);
+              console.log(data);
+              console.log("this is products data");
             });
           }
         });
