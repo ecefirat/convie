@@ -1,6 +1,4 @@
 import React from "react";
-// import axios from 'axios';
-// import {API_BASE_URL, ACCESS_TOKEN_NAME} from '../../constants/apiConstants';
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 

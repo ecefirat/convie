@@ -11,7 +11,7 @@ import Register from "../components/Register/Register";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "../index.css";
 
-function App() {
+function App(props) {
   return (
     <Router>
       <div>

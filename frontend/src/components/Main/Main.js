@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Products from "../Products/Products";
+import Basket from "../Basket/Basket";
 
-function Main() {
+function Main(props) {
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -91,9 +92,29 @@ function Main() {
   }, [cart]);
 
   const addtoCart = (product) => {
-    setCart((oldCart) => {
-      return [...oldCart, product];
-    });
+    const exists = cart.find((i) => i.pID === product.pID);
+    if (exists) {
+      setCart(
+        cart.map((i) =>
+          i.pID === product.pID ? { ...exists, qty: exists.qty + 1 } : i
+        )
+      );
+    } else {
+      setCart([...cart, { ...product, qty: 1 }]);
+    }
+  };
+
+  const removefromCart = (product) => {
+    const exists = cart.find((i) => i.pID === product.pID);
+    if (exists.qty === 1) {
+      setCart(cart.filter((i) => i.pID !== product.pID));
+    } else {
+      setCart(
+        cart.map((i) =>
+          i.pID === product.pID ? { ...exists, qty: exists.qty - 1 } : i
+        )
+      );
+    }
   };
 
   const calculateTotal = () => {
@@ -101,7 +122,7 @@ function Main() {
       return null;
     } else {
       let prices = cart.map((item, index) => {
-        return item.pPrice;
+        return item.pPrice * item.qty;
       });
       let totals = prices.reduce((acc, cur) => acc + cur);
       setTotal(totals.toFixed(2));
@@ -119,31 +140,22 @@ function Main() {
             return (
               <Products
                 key={product.pID}
-                id={product.pID}
-                name={product.pName}
-                price={product.pPrice}
-                imgUrl={product.pImage}
-                addtoCart={() => addtoCart(product)}
+                product={product}
+                addtoCart={addtoCart}
+                removefromCart={removefromCart}
               />
             );
           })}
-          Cart ({cart.length})
-          <div style={{ float: "right" }}>
-            <h3>{total}</h3>
-            <button
-              className="btn waves-effect waves-light green"
-              style={{ float: "right" }}
-              onClick={() => handleSendOrder(total)}>
-              ORDER
-            </button>
-          </div>
-          {cart.map((cartItem) => {
-            return (
-              <li key={cartItem.pID}>
-                {cartItem.pName} - {cartItem.pPrice}
-              </li>
-            );
-          })}
+          <button
+            className="btn waves-effect waves-light green"
+            onClick={() => handleSendOrder(total)}>
+            ${total} - ORDER
+          </button>
+          <Basket
+            cart={cart}
+            addtoCart={addtoCart}
+            removefromCart={removefromCart}
+          />
         </div>
       ) : (
         <div className="progress">

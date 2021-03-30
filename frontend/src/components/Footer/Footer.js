@@ -5,7 +5,7 @@ function Footer() {
     // <footer classNameName="page-footer amber darken-1">
     //         All rights reversed.
     // </footer>
-    <div className="footer-fixed">
+    <div className="footer">
       <footer>
         <nav className="amber darken-1">
           <div className="nav-wrapper footer-margin">
