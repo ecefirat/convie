@@ -57,11 +57,12 @@ const loginCustomer = (req, cb) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  console.log(email);
   const checkCustomer = "SELECT * FROM customers WHERE customer_email = ?";
+  const loginCustomer =
+    "SELECT customer_id, customer_name, customer_surname, customer_email FROM customers WHERE customer_email = ?";
 
   db.query(checkCustomer, [email], (err, result) => {
-    console.log(result);
+    // console.log(result);
     if (err) {
       cb(400);
       console.log(err);
@@ -71,13 +72,19 @@ const loginCustomer = (req, cb) => {
     }
     if (result.length > 0) {
       console.log(result[0]);
-      console.log(result[0].customer_password);
-      console.log("pass");
+      // console.log(result[0].customer_password);
+      console.log("result from the db for login");
       bcrypt.compare(password, result[0].customer_password, (err, response) => {
         if (err) {
           console.log(err);
         } else if (response) {
-          cb(200);
+          db.query(loginCustomer, [email], (error, res) => {
+            if (error) {
+              cb(400);
+            } else if (res) {
+              cb(res);
+            }
+          });
         }
       });
     }
@@ -100,8 +107,39 @@ const showProducts = (cb) => {
   });
 };
 
+const sendOrder = (req, cb) => {
+  const amount = req.body.totals;
+  console.log(amount);
+
+  const SendOrder = "INSERT INTO orders(order_amount) VALUES (?);";
+  const SendOrderDetails = "INSERT INTO order_details(order_id) VALUES (?);";
+
+  db.query(SendOrder, [amount], (err, res) => {
+    if (err) {
+      console.log("err sendorder");
+      console.log(err);
+      cb(400);
+    }
+    if (res) {
+      cb(200);
+      console.log("success");
+      db.query(SendOrderDetails, [res.insertId], (err, res) => {
+        if (err) {
+          console.log("order details error");
+          console.log(err);
+        } else {
+          console.log("success foreign key");
+        }
+      });
+    } else {
+      console.log("error after res");
+    }
+  });
+};
+
 module.exports = {
   registerCustomer: registerCustomer,
   loginCustomer: loginCustomer,
   showProducts: showProducts,
+  sendOrder: sendOrder,
 };

@@ -29,6 +29,7 @@ function Login(props) {
         console.log(res.status);
         res.json().then((data) => {
           console.log(data);
+          console.log("above");
         });
       });
   };

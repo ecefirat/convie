@@ -13,6 +13,7 @@ const db = require("./db_functions/functions");
 const cors = require("cors");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const { Cookie } = require("express-session");
 require("dotenv").config({
   path: "/Users/ecefirat/Documents/projects/convie/.env",
 });
@@ -75,11 +76,9 @@ app.post("/login", (req, res) => {
       res.status(400).send({ message: "login failed" });
     } else if (cb === 404) {
       res.status(404).send({ message: "user does not exist" });
-    } else if (cb === 200) {
-      res.status(200).send({ message: "done" });
-      console.log("lach");
     } else {
-      res.status(418).send({ message: "tea" });
+      req.session.user = cb[0];
+      res.status(200).send({ message: "done" });
     }
     // else {
     //   console.log(cb);
@@ -97,6 +96,25 @@ app.get("/products", (req, res) => {
       res.status(200).send({ prod: cb });
     }
   });
+});
+
+app.post("/order", (req, res) => {
+  db.sendOrder(req, (cb) => {
+    if (cb === 400) {
+      // res.status(400).send({ message: "failed" });
+      console.log("hey");
+    } else if (cb === 200) {
+      res.status(200).send({ message: "succ" });
+    }
+  });
+});
+
+app.get("/sessionInfo", (req, res) => {
+  if (req.session.user) {
+    res.status(200).send({ user: req.session.user });
+  } else {
+    res.status(400).send({ message: "not logged in" });
+  }
 });
 
 // app.post("/order", (req, res) => {

@@ -6,6 +6,54 @@ function Main() {
   const [products, setProducts] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [total, setTotal] = useState(0);
+  const [customer, setCustomer] = useState("");
+
+  const handleSendOrder = (totall) => {
+    fetch("http://localhost:5000/order", {
+      method: "POST",
+      body: JSON.stringify({ totals: totall }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        console.log(res);
+        console.log("first");
+        if (res.status === 400) {
+          res.json().then((data) => {
+            console.log(data);
+          });
+        } else if (res.status === 200) {
+          res.json().then((data) => {
+            console.log(data);
+          });
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    fetch("http://localhost:5000/sessionInfo", {
+      method: "GET",
+      body: JSON.stringify(),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }).then((res) => {
+      if (res.status === 200) {
+        res.json().then((data) => {
+          console.log(data);
+          setCustomer(data.user.customer_name);
+        });
+      } else if (res.status === 400) {
+        res.json().then((data) => {
+          console.log(data);
+        });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     async function fetchAPI() {
@@ -64,6 +112,7 @@ function Main() {
 
   return (
     <div className="row">
+      <p>WELCOME {customer}</p>
       {loaded ? (
         <div>
           {products.map((product) => {
@@ -83,17 +132,16 @@ function Main() {
             <h3>{total}</h3>
             <button
               className="btn waves-effect waves-light green"
-              style={{ float: "right" }}>
+              style={{ float: "right" }}
+              onClick={() => handleSendOrder(total)}>
               ORDER
             </button>
           </div>
-          {cart.map((cartItem, index) => {
+          {cart.map((cartItem) => {
             return (
-              <>
-                <li key={index}>
-                  {cartItem.pName} - {cartItem.pPrice}
-                </li>
-              </>
+              <li key={cartItem.pID}>
+                {cartItem.pName} - {cartItem.pPrice}
+              </li>
             );
           })}
         </div>
