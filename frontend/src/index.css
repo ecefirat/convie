@@ -11,31 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-main {
-  flex: 1 0 auto;
-}
-
-.footer-fixed {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-}
-
-.thumbnail {
-  max-height: 10rem;
-  max-width: 7rem;
-}
-
-/* .footer-margin {
-  margin-top: 50px;
-} */
-
-/* #bg-color {
-  background-color: #eb4034;
-} */

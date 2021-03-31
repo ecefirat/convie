@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Products from "../Products/Products";
 import Basket from "../Basket/Basket";
+import "./Main.css";
 
 function Main(props) {
   const [cart, setCart] = useState([]);
@@ -147,7 +148,7 @@ function Main(props) {
             );
           })}
           <button
-            className="btn waves-effect waves-light green"
+            className="order-btn btn waves-effect waves-light green"
             onClick={() => handleSendOrder(total)}>
             ${total} - ORDER
           </button>

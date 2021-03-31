@@ -9,7 +9,7 @@ import "materialize-css/dist/js/materialize.min";
 import React from "react";
 import Register from "../components/Register/Register";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import "../index.css";
+import "../containers/App.css";
 
 function App(props) {
   return (
