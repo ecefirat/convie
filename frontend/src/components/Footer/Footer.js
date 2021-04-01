@@ -10,7 +10,7 @@ function Footer() {
       <footer>
         <nav className="amber darken-1">
           <div className="nav-wrapper footer-margin">
-            <ul className="justify">
+            <ul className="footer-spread">
               <li>
                 <a href="/home">
                   <i className="material-icons">home</i>

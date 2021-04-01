@@ -8,44 +8,31 @@ import "../../node_modules/materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min";
 import React from "react";
 import Register from "../components/Register/Register";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "../containers/App.css";
+import { Route, Switch } from "react-router";
 
 function App(props) {
   return (
-    <Router>
-      <div>
-        <Header
-          profile="Profile"
-          register="Register"
-          login="Login"
-          basket="Cart"
-        />
-        <div className="container">
-          <Switch>
-            {/* <Route path="/" exact={true}>
-              <Register />
-            </Route> */}
-            <Route path="/profile">
-              <Profile />
-            </Route>
-            <Route path="/register">
-              <Register />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/basket">
-              <Basket />
-            </Route>
-            <Route path="/">
-              <Main />
-            </Route>
-          </Switch>
-        </div>
-        <Footer />
+    // <Router>
+    <div>
+      <Header
+        profile="Profile"
+        register="Register"
+        login="Login"
+        basket="Cart"
+      />
+      <div className="container">
+        <Switch>
+          <Route path="/profile" component={Profile}></Route>
+          <Route path="/register" component={Register}></Route>
+          <Route path="/login" component={Login}></Route>
+          <Route path="/basket" component={Basket}></Route>
+          <Route path="/" component={Main}></Route>
+        </Switch>
       </div>
-    </Router>
+      <Footer />
+    </div>
+    // </Router>
   );
 }
 

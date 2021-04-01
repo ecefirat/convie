@@ -1,6 +1,6 @@
 import React from "react";
+import "./Header.css";
 import { Link } from "react-router-dom";
-// import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function Header(props) {
   return (
@@ -10,7 +10,7 @@ function Header(props) {
           <Link to="/" className="brand-logo left">
             Convie
           </Link>
-          <ul id="nav-mobile" className="right">
+          <ul className="nav-mobile right">
             <li>
               <Link to="/profile">{props.profile}</Link>
             </li>
@@ -23,22 +23,6 @@ function Header(props) {
             <li>
               <Link to="/basket">{props.basket}</Link>
             </li>
-            {/* <li>
-            <a href="/profile">{props.profile}</a>
-          </li>
-          <li>
-            <a href="/register">{props.register}</a>
-          </li>
-          <li>
-            <a href="/login">{props.login}</a>
-          </li>
-          <li>
-            <a href="/basket">{props.basket}</a>
-            <Route path="/basket">
-              <Basket />
-            </Route>
-            <Link to="/basket"><img src={Basket} alt=""></img></Link>
-          </li> */}
           </ul>
         </div>
       </nav>
