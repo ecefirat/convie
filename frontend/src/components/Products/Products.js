@@ -1,30 +1,54 @@
-import React from "react";
+// import React, { useEffect, useState } from "react";
+// import Product from "./Product/Product";
 
-function Products(props) {
-  const { product, addtoCart, removefromCart } = props;
-  return (
-    <div className="col s4" key={product.pID}>
-      <div className="card">
-        <div className="card-image">
-          <img src={product.pImage} alt={product.pName} />
-          <button
-            className="btn-floating halfway-fab waves-effect waves-light red"
-            onClick={() => addtoCart(product)}>
-            <i className="material-icons">add</i>
-          </button>
-          {/* <button
-            className="btn-floating btn-small waves-effect waves-light green"
-            onClick={() => removefromCart(product)}>
-            <i className="material-icons">remove</i>
-          </button> */}
-          <div className="card-content">
-            <p>{product.pName}</p>
-            <p>${product.pPrice}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+// function Products(props) {
+//   const { products, addtoCart, removefromCart } = props;
+//   //   const [products, setProducts] = useState([]);
+//   //   const [loaded, setLoaded] = useState(false);
 
-export default Products;
+//   //   useEffect(() => {
+//   //     async function fetchAPI() {
+//   //       const request = await fetch("http://localhost:5000/products", {
+//   //         method: "GET",
+//   //         body: JSON.stringify(),
+//   //         headers: {
+//   //           "Content-Type": "application/json",
+//   //         },
+//   //         credentials: "include",
+//   //       })
+//   //         .catch((error) => console.log(error))
+//   //         .then((res) => {
+//   //           if (res.status === 405) {
+//   //             res.json().then((data) => {
+//   //               console.log(data);
+//   //               console.log("this is products data /error 405");
+//   //             });
+//   //           } else if (res.status === 200) {
+//   //             res.json().then((data) => {
+//   //               setProducts(data.prod);
+//   //               setLoaded(true);
+//   //               console.log(data);
+//   //               console.log("this is products data");
+//   //             });
+//   //           }
+//   //         });
+//   //       return request;
+//   //     }
+//   //     fetchAPI();
+//   //   }, []);
+
+//   <div>
+//     {products.map((product) => {
+//       return (
+//         <Product
+//           key={product.pID}
+//           product={product}
+//           addtoCart={addtoCart(product)}
+//           removefromCart={removefromCart(product)}
+//         />
+//       );
+//     })}
+//   </div>;
+// }
+
+// export default Products;

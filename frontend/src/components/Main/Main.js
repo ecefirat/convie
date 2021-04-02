@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Products from "../Products/Products";
+import Product from "../Products/Product/Product";
 import Basket from "../Basket/Basket";
 import "./Main.css";
 
@@ -139,7 +139,7 @@ function Main(props) {
         <div>
           {products.map((product) => {
             return (
-              <Products
+              <Product
                 key={product.pID}
                 product={product}
                 addtoCart={addtoCart}
