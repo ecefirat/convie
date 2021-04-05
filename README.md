@@ -4,8 +4,7 @@
 # Get Started
 
 - Git clone repo
-- cd backend npm install
-- cd frontend npm install
+- npm install
 - Phpmyadmin -> Create New Database
     - Priviligies -> Add user acc. 
     - Create new login information
