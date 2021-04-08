@@ -7,28 +7,34 @@ function Basket(props) {
   return (
     <div>
       <div>{cart && !cart.length && <div>Cart is empty.</div>}</div>
-      {cart.map((item) => {
-        return (
-          <div key={item.pID}>
-            <div style={{ display: "inline" }}>
-              {item.pName} -
-              <div style={{ display: "inline" }}>
-                - {item.qty} x {item.pPrice} --
+      {cart ? (
+        <div>
+          {cart.map((item) => {
+            return (
+              <div key={item.pID}>
+                <div style={{ display: "inline" }}>
+                  {item.pName} -
+                  <div style={{ display: "inline" }}>
+                    - {item.qty} x {item.pPrice} --
+                  </div>
+                  <i
+                    className="cursor small material-icons"
+                    onClick={() => addtoCart(item)}>
+                    add_circle_outline
+                  </i>
+                  <i
+                    className="cursor small material-icons"
+                    onClick={() => removefromCart(item)}>
+                    remove_circle_outline
+                  </i>
+                </div>
               </div>
-              <i
-                className="cursor small material-icons"
-                onClick={() => addtoCart(item)}>
-                add_circle_outline
-              </i>
-              <i
-                className="cursor small material-icons"
-                onClick={() => removefromCart(item)}>
-                remove_circle_outline
-              </i>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
+        </div>
+      ) : (
+        <div>cart is empty</div>
+      )}
     </div>
   );
 }
