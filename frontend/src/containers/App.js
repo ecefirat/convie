@@ -9,30 +9,33 @@ import "materialize-css/dist/js/materialize.min";
 import React from "react";
 import Register from "../components/Register/Register";
 import "../containers/App.css";
-import { Route, Switch } from "react-router";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Orders } from "../components/Orders/Orders";
 
 function App(props) {
   return (
-    // <Router>
-    <div>
-      <Header
-        profile="Profile"
-        register="Register"
-        login="Login"
-        basket="Cart"
-      />
-      <div className="container">
-        <Switch>
-          <Route path="/profile" component={Profile}></Route>
-          <Route path="/register" component={Register}></Route>
-          <Route path="/login" component={Login}></Route>
-          <Route path="/basket" component={Basket}></Route>
-          <Route path="/" component={Main}></Route>
-        </Switch>
+    <Router>
+      <div>
+        <Header
+          profile="Profile"
+          // register="Register"
+          login="Login"
+          basket="Cart"
+        />
+        <div className="container">
+          <Switch>
+            <Route path="/profile" component={Profile}></Route>
+            <Route path="/register" component={Register}></Route>
+            <Route path="/login" component={Login}></Route>
+            <Route path="/basket" component={Basket}></Route>
+            <Route path="/orders" component={Orders}></Route>
+            <Route path="/" component={Main}></Route>
+            {/* <Route component={NotFoundPage} /> */}
+          </Switch>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-    // </Router>
+    </Router>
   );
 }
 

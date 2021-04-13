@@ -1,13 +1,18 @@
 import React from "react";
+// import {API_BASE_URL, ACCESS_TOKEN_NAME} from '../../constants/apiConstants';
+// import { withRouter } from "react-router-dom";
+// import Axios from "axios";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
 
 function Register(props) {
-  let history = useHistory();
+  // const [first_name, setFirstName] = useState("");
+  // const [last_name, setLastName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+
   const { register, handleSubmit, errors } = useForm();
-  console.log("bla");
+
   const submitCustomerRegistration = (data) => {
-    console.log(data);
     let url = "http://localhost:5000/register";
     fetch(url, {
       method: "POST",
@@ -16,20 +21,22 @@ function Register(props) {
         "Content-Type": "application/json",
       },
     }).then((res) => {
-      console.log("blab");
-      if (res.status === 404) {
-        history.push("/login");
-      }
-      if (res.status === 200) {
-        history.push("/");
-      }
       console.log(res.status);
       res.json().then((data) => {
         console.log(data);
-        console.log("this one");
       });
     });
+    // .then((res) => console.log(res.status));
   };
+
+  // const submitCustomerRegistration = () => {
+  //   axios.post("http://localhost:5000/register", {
+  //     first_name: first_name,
+  //     last_name: last_name,
+  //     email: email,
+  //     password: password,
+  //   });
+  // };
 
   return (
     <div className="row">
@@ -46,6 +53,8 @@ function Register(props) {
               type="text"
               className="validate"
               ref={register({ required: true })}
+              // onChange={(e) => {
+              //   setFirstName(e.target.value);
             />
             {errors.first_name && <span>This field is required</span>}
             <label htmlFor="icon_prefix first_name">First Name</label>
@@ -58,6 +67,9 @@ function Register(props) {
               type="text"
               className="validate"
               ref={register({ required: true })}
+              // onChange={(e) => {
+              //   setLastName(e.target.value);
+              // }}
             />
             <label htmlFor="last_name">Last Name</label>
           </div>
@@ -71,6 +83,9 @@ function Register(props) {
               type="email"
               className="validate"
               ref={register({ required: true })}
+              // onChange={(e) => {
+              //   setEmail(e.target.value);
+              // }}
             />
             <label htmlFor=" icon_prefix email">Email</label>
           </div>
@@ -84,6 +99,9 @@ function Register(props) {
               type="password"
               className="validate"
               ref={register({ required: true })}
+              // onChange={(e) => {
+              //   setPassword(e.target.value);
+              // }}
             />
             <label htmlFor="password">Password</label>
           </div>
