@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Product from "../Products/Product/Product";
 import Basket from "../Basket/Basket";
+import Orders from "../Orders/Orders";
 import "./Main.css";
 
 function Main(props) {
+  let history = useHistory();
+
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  //change this to if(!data) {return Loading}
+
   const [total, setTotal] = useState(0);
   const [customer, setCustomer] = useState("");
 
@@ -29,6 +35,7 @@ function Main(props) {
         } else if (res.status === 200) {
           res.json().then((data) => {
             console.log(data);
+            history.push("/orders");
           });
         }
       })
@@ -67,7 +74,6 @@ function Main(props) {
         },
         credentials: "include",
       })
-        .catch((error) => console.log(error))
         .then((res) => {
           if (res.status === 405) {
             res.json().then((data) => {
@@ -82,7 +88,8 @@ function Main(props) {
               console.log("this is products data");
             });
           }
-        });
+        })
+        .catch((error) => console.log(error));
       return request;
     }
     fetchAPI();

@@ -19,7 +19,8 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "react-hook-form": "^7.0.7"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

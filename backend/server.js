@@ -1,9 +1,3 @@
-// import express from "express";
-// import data from "./data/data.json";
-// import bodyParser from "body-parser";
-// import mysql from "mysql";
-// import cors from "cors";
-
 //script start
 //nodemon server.js --exec babel-node -e js
 
@@ -15,22 +9,10 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { Cookie } = require("express-session");
 require("dotenv").config({
-  path: "/Users/ecefirat/Documents/projects/convie/.env",
+  path: "/Users/ece/Downloads/convie/excludes/.env",
 });
 const app = express();
 const Port = 5000;
-
-// const db = mysql.createPool({
-//   host: "localhost",
-//   user: "convie_admin",
-//   password: "xTDwaz8pjqKLWbg4",
-//   database: "convie",
-//   port: "8889",
-// });
-
-// app.get("/", (req, res) => {
-//   res.send(data);
-// });
 
 app.use(
   cors({
@@ -87,6 +69,16 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.post("/customers", (req, res) => {
+  db.changeAddress(req, (cb) => {
+    if (cb === 400) {
+      res.status(400).send({ message: "no update" });
+    } else if (cb === 200) {
+      res.status(200).send({ message: "upddate success" });
+    }
+  });
+});
+
 app.get("/products", (req, res) => {
   db.showProducts((cb) => {
     if (cb === 405) {
@@ -116,18 +108,6 @@ app.get("/sessionInfo", (req, res) => {
     res.status(400).send({ message: "not logged in" });
   }
 });
-
-// app.post("/order", (req, res) => {
-//   db.sendOrder(req, res, (cb) => {
-//     if (cb === 400) {
-//       res.status(400).send({ message: "order failed" });
-//     } else if (cb === 200) {
-//       res.status(200).send({ message: "order sent" });
-//     } else {
-//       console.log("sth wrong");
-//     }
-//   });
-// });
 
 app.listen(Port, () => {
   console.log(`it's listening on port ${Port}`);

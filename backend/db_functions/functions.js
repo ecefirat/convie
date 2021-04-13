@@ -1,5 +1,5 @@
 require("dotenv").config({
-  path: "/Users/ecefirat/Documents/projects/convie/.env",
+  path: "/Users/ece/Downloads/convie/excludes/.env",
 });
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -59,7 +59,7 @@ const loginCustomer = (req, cb) => {
 
   const checkCustomer = "SELECT * FROM customers WHERE customer_email = ?";
   const loginCustomer =
-    "SELECT customer_id, customer_name, customer_surname, customer_email FROM customers WHERE customer_email = ?";
+    "SELECT customer_id, customer_name, customer_surname, customer_email, customer_address FROM customers WHERE customer_email = ?";
 
   db.query(checkCustomer, [email], (err, result) => {
     // console.log(result);
@@ -87,6 +87,24 @@ const loginCustomer = (req, cb) => {
           });
         }
       });
+    }
+  });
+};
+
+const changeAddress = (req, res, cb) => {
+  const customer_address = req.body.customer_address;
+  // const customer_name = req.body.customer_name;
+
+  const ChangeAddress =
+    "UPDATE customers SET customer_address = ? WHERE customer_name = 'ecce'";
+  db.query(ChangeAddress, [customer_address], (err, res) => {
+    if (err) {
+      cb(400);
+      console.log(err);
+      console.log("update failed");
+    }
+    if (res) {
+      console.log("update good");
     }
   });
 };
@@ -142,4 +160,5 @@ module.exports = {
   loginCustomer: loginCustomer,
   showProducts: showProducts,
   sendOrder: sendOrder,
+  changeAddress: changeAddress,
 };
