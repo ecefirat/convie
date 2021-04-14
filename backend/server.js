@@ -9,6 +9,7 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { Cookie } = require("express-session");
 const fileUpload = require("express-fileupload");
+const path = require("path");
 require("dotenv").config({
   path: "/Users/ece/Downloads/convie/excludes/.env",
 });
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // app.use(bodyParser.json({ limit: "200mb" }));
 // app.use(bodyParser.urlencoded({ limit: "200mb",  extended: true, parameterLimit: 1000000 }));
+app.use("/", express.static(path.join(__dirname, "/")));
 
 app.use(cookieParser());
 app.use(
@@ -82,29 +84,30 @@ app.post("/customerAddress", (req, res) => {
   });
 });
 
-// app.post("/picture", async (req, res) => {
-//   try {
-//     if (!req.files) {
-//       res.send({ message: "no files" });
-//     } else {
-//       const { picture } = req.files;
-//       picture.mv("./uploads/" + picture.name);
-//       res.send({ message: "imaged uploaded" });
-//     }
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// });
-
-app.post("/picture", (req, res) => {
-  db.uploadImage(req, (cb) => {
-    if (cb === 404) {
-      res.status(404).send({ message: "image failed" });
-    } else if (cb === 200) {
-      res.status(200).send({ message: "image changed" });
+app.post("/picture", async (req, res) => {
+  console.log(req);
+  try {
+    if (!req.files) {
+      res.send({ message: "no files" });
+    } else {
+      const { picture } = req.files;
+      picture.mv("./uploads/" + picture.name);
+      res.send({ picture });
     }
-  });
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
+
+// app.post("/picture", (req, res) => {
+//   db.uploadImage(req, (cb) => {
+//     if (cb === 404) {
+//       res.status(404).send({ message: "image failed" });
+//     } else if (cb === 200) {
+//       res.status(200).send({ message: "image changed" });
+//     }
+//   });
+// });
 
 app.get("/products", (req, res) => {
   db.showProducts((cb) => {

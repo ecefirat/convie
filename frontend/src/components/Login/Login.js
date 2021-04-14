@@ -9,7 +9,7 @@ function Login(props) {
 
   const submitCustomerLogin = (data) => {
     console.log(data);
-    console.log("logind data");
+    console.log("login data");
     let url = "http://localhost:5000/login";
     fetch(url, {
       method: "POST",

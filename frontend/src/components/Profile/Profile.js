@@ -5,7 +5,7 @@ function Profile() {
   const { register, handleSubmit } = useForm();
   const [customer_address, setCustomerAddress] = useState("");
   const [customer_name, setCustomerName] = useState("");
-  const [profile_picture, setProfilePicture] = useState("");
+  const [imagePath, setImagePath] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:5000/sessionInfo", {
@@ -20,7 +20,7 @@ function Profile() {
         res.json().then((data) => {
           setCustomerAddress(data.user.customer_address);
           setCustomerName(data.user.customer_name);
-          setProfilePicture(data.user.profile_picture);
+          setImagePath(data.user.imagePath);
         });
       } else if (res.status === 400) {
         res.json().then((data) => {
@@ -28,7 +28,7 @@ function Profile() {
         });
       }
     });
-  });
+  }, []);
 
   const handleAddress = (data) => {
     console.log(data);
@@ -62,7 +62,9 @@ function Profile() {
       body: formData,
       credentials: "include",
     }).then((res) => res.json());
-    alert(JSON.stringify(res));
+    const newImagePath = "http://localhost:5000/uploads/" + res.picture.name;
+    console.log(newImagePath);
+    setImagePath(newImagePath);
 
     //   const uploadImage = (data) => {
 
@@ -80,8 +82,8 @@ function Profile() {
     //     if (res.status === 404) {
     //       console.log("image upload failed");
     //     } else if (res.status === 200) {
-    //       res.json().then((profile_picture) => {
-    //         console.log(profile_picture);
+    //       res.json().then((imagePath) => {
+    //         console.log(imagePath);
     //         console.log("pic above");
     //       });
     //     }
@@ -91,21 +93,21 @@ function Profile() {
 
   return (
     <div className="container">
-      <h1>Hi {customer_name}!</h1>
+      <h2>Hi {customer_name}!</h2>
       <h5>Edit Address</h5>
       <p>{customer_address}</p>
       <input
-        style={{ display: "inline", width: 200, marginBottom: 30 }}
         type="text"
         placeholder="Enter new address..."
         name="customer_address"
         ref={register}
+        style={{ marginBottom: 15 }}
       />
       <button
-        className="btn waves-effect waves-light green right"
-        style={{ width: 80, display: "inline" }}
+        className="btn waves-effect waves-light green"
+        style={{ marginBottom: 10 }}
         onClick={handleSubmit(handleAddress)}>
-        change
+        submit
       </button>
       <input
         type="hidden"
@@ -113,25 +115,22 @@ function Profile() {
         name="customer_name"
         ref={register}
       />
-      <h5>Upload Profile Picture</h5>
-      <p>{profile_picture}</p>
+      <h5>Change Profile Picture</h5>
       <input
         type="file"
-        style={{
-          display: "inline",
-          width: 200,
-          marginBottom: 30,
-          marginTop: 20,
-        }}
         name="picture"
         ref={register}
+        style={{ marginBottom: 15 }}
       />
       <button
-        className="btn waves-effect waves-light green right"
-        style={{ width: 80, marginTop: 10 }}
+        className="btn waves-effect waves-light green"
+        style={{ marginBottom: 10 }}
         onClick={handleSubmit(uploadImage)}>
         upload
       </button>
+      {imagePath ? (
+        <img src={imagePath} alt="img" width="200px" height="200px" />
+      ) : null}
       <h5>Update Payment Details</h5>
     </div>
   );

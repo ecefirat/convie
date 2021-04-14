@@ -60,7 +60,7 @@ const loginCustomer = (req, cb) => {
 
   const checkCustomer = "SELECT * FROM customers WHERE customer_email = ?";
   const loginCustomer =
-    "SELECT customer_id, customer_name, customer_surname, customer_email, customer_address FROM customers WHERE customer_email = ?";
+    "SELECT customer_id, customer_name, customer_surname, customer_email, customer_address, profile_picture FROM customers WHERE customer_email = ?";
 
   db.query(checkCustomer, [email], (err, result) => {
     // console.log(result);
@@ -110,25 +110,25 @@ const changeAddress = (req, res, cb) => {
   });
 };
 
-const uploadImage = (req, res, cb) => {
-  console.log(req.file);
-  console.log("db upload");
-  const profile_picture = req.body.picture.name;
-  console.log(profile_picture);
+// const uploadImage = (req, res, cb) => {
+//   console.log(req.file);
+//   console.log("db upload");
+//   const profile_picture = req.body.picture.name;
+//   console.log(profile_picture);
 
-  const UploadImage =
-    "UPDATE customers SET profile_picture = ? WHERE customer_name = 'sugar'";
+//   const UploadImage =
+//     "UPDATE customers SET profile_picture = ? WHERE customer_name = 'sugar'";
 
-  db.query(UploadImage, [profile_picture], (error, result) => {
-    if (error) {
-      cb(400);
-      console.log(error);
-      console.log("image upload failed");
-    } else if (result) {
-      console.log("image upload fine");
-    }
-  });
-};
+//   db.query(UploadImage, [profile_picture], (error, result) => {
+//     if (error) {
+//       cb(400);
+//       console.log(error);
+//       console.log("image upload failed");
+//     } else if (result) {
+//       console.log("image upload fine");
+//     }
+//   });
+// };
 
 const showProducts = (cb) => {
   const ShowProducts = "SELECT * FROM products";
@@ -182,5 +182,5 @@ module.exports = {
   showProducts: showProducts,
   sendOrder: sendOrder,
   changeAddress: changeAddress,
-  uploadImage: uploadImage,
+  // uploadImage: uploadImage,
 };
