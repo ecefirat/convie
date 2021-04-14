@@ -8,6 +8,8 @@ function Login(props) {
   const { register, handleSubmit } = useForm();
 
   const submitCustomerLogin = (data) => {
+    console.log(data);
+    console.log("logind data");
     let url = "http://localhost:5000/login";
     fetch(url, {
       method: "POST",

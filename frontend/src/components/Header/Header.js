@@ -21,9 +21,7 @@ function Header(props) {
               <Link to="/login">{props.login}</Link>
             </li>
             <li>
-              <Link to={{ basket: "/basket", state: { message: "hey heyyy" } }}>
-                {props.basket}
-              </Link>
+              <Link to="/basket">{props.basket}</Link>
             </li>
           </ul>
         </div>

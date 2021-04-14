@@ -8,6 +8,7 @@ const cors = require("cors");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { Cookie } = require("express-session");
+const fileUpload = require("express-fileupload");
 require("dotenv").config({
   path: "/Users/ece/Downloads/convie/excludes/.env",
 });
@@ -22,6 +23,10 @@ app.use(
 );
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// app.use(bodyParser.json({ limit: "200mb" }));
+// app.use(bodyParser.urlencoded({ limit: "200mb",  extended: true, parameterLimit: 1000000 }));
+
 app.use(cookieParser());
 app.use(
   session({
@@ -35,6 +40,8 @@ app.use(
     },
   })
 );
+
+app.use(fileUpload({ createParentPath: true }));
 
 app.post("/register", (req, res) => {
   db.registerCustomer(req, res, (cb) => {
@@ -60,21 +67,41 @@ app.post("/login", (req, res) => {
       res.status(404).send({ message: "user does not exist" });
     } else {
       req.session.user = cb[0];
-      res.status(200).send({ message: "done" });
+      res.status(200).send({ message: "login success" });
     }
-    // else {
-    //   console.log(cb);
-    //   res.status(200).send({ message: "succesful login" });
-    // }
   });
 });
 
-app.post("/customers", (req, res) => {
+app.post("/customerAddress", (req, res) => {
   db.changeAddress(req, (cb) => {
     if (cb === 400) {
       res.status(400).send({ message: "no update" });
     } else if (cb === 200) {
       res.status(200).send({ message: "upddate success" });
+    }
+  });
+});
+
+// app.post("/picture", async (req, res) => {
+//   try {
+//     if (!req.files) {
+//       res.send({ message: "no files" });
+//     } else {
+//       const { picture } = req.files;
+//       picture.mv("./uploads/" + picture.name);
+//       res.send({ message: "imaged uploaded" });
+//     }
+//   } catch (err) {
+//     res.status(500).send(err);
+//   }
+// });
+
+app.post("/picture", (req, res) => {
+  db.uploadImage(req, (cb) => {
+    if (cb === 404) {
+      res.status(404).send({ message: "image failed" });
+    } else if (cb === 200) {
+      res.status(200).send({ message: "image changed" });
     }
   });
 });

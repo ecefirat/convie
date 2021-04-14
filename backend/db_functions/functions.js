@@ -13,7 +13,8 @@ const db = mysql.createPool({
   port: process.env.port,
 });
 
-const registerCustomer = (req, res, cb) => {
+const registerCustomer = (req, cb) => {
+  console.log(req.body.first_name);
   const first_name = req.body.first_name;
   const last_name = req.body.last_name;
   const email = req.body.email;
@@ -93,11 +94,11 @@ const loginCustomer = (req, cb) => {
 
 const changeAddress = (req, res, cb) => {
   const customer_address = req.body.customer_address;
-  // const customer_name = req.body.customer_name;
+  const customer_name = req.body.customer_name;
 
   const ChangeAddress =
-    "UPDATE customers SET customer_address = ? WHERE customer_name = 'ecce'";
-  db.query(ChangeAddress, [customer_address], (err, res) => {
+    "UPDATE customers SET customer_address = ? WHERE customer_name = ?";
+  db.query(ChangeAddress, [customer_address, customer_name], (err, res) => {
     if (err) {
       cb(400);
       console.log(err);
@@ -105,6 +106,26 @@ const changeAddress = (req, res, cb) => {
     }
     if (res) {
       console.log("update good");
+    }
+  });
+};
+
+const uploadImage = (req, res, cb) => {
+  console.log(req.file);
+  console.log("db upload");
+  const profile_picture = req.body.picture.name;
+  console.log(profile_picture);
+
+  const UploadImage =
+    "UPDATE customers SET profile_picture = ? WHERE customer_name = 'sugar'";
+
+  db.query(UploadImage, [profile_picture], (error, result) => {
+    if (error) {
+      cb(400);
+      console.log(error);
+      console.log("image upload failed");
+    } else if (result) {
+      console.log("image upload fine");
     }
   });
 };
@@ -161,4 +182,5 @@ module.exports = {
   showProducts: showProducts,
   sendOrder: sendOrder,
   changeAddress: changeAddress,
+  uploadImage: uploadImage,
 };

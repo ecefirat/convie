@@ -6,6 +6,7 @@ function Register(props) {
   let history = useHistory();
   const { register, handleSubmit, errors } = useForm();
   console.log("bla");
+
   const submitCustomerRegistration = (data) => {
     console.log(data);
     let url = "http://localhost:5000/register";
