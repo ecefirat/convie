@@ -31,6 +31,9 @@ export const Orders = (props) => {
     <div className="container">
       <h2>Thank you {customer}!</h2>
       <h3>Your order has been placed.{total}</h3>
+      <p>
+        See <a href="http://localhost:3000/history">Order History</a>
+      </p>
     </div>
   );
 };
