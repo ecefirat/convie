@@ -7,6 +7,7 @@ function Profile() {
   const [customer_name, setCustomerName] = useState("");
   const [imagePath, setImagePath] = useState("");
   const [profile_picture, setProfilePicture] = useState("");
+  const [customer_email, setCustomerEmail] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:5000/sessionInfo", {
@@ -22,6 +23,7 @@ function Profile() {
           setCustomerAddress(data.user.customer_address);
           setCustomerName(data.user.customer_name);
           setProfilePicture(data.user.profile_picture);
+          setCustomerEmail(data.user.customer_email);
           // const prof_pic = "http://localhost:5000/uploads" + profile_picture;
           // console.log(prof_pic);
         });
@@ -119,6 +121,26 @@ function Profile() {
     });
   };
 
+  const deleteAccount = (data) => {
+    fetch("http://localhost:5000/account", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }).then((res) => {
+      if (res.status === 400) {
+        console.log("can't delete");
+      } else if (res.status === 200) {
+        res.json().then((data) => {
+          console.log(data);
+          console.log("image deleted");
+        });
+      }
+    });
+  };
+
   return (
     <div className="container">
       <h2>Hi {customer_name}!</h2>
@@ -131,6 +153,12 @@ function Profile() {
         name="customer_address"
         ref={register}
         style={{ marginBottom: 15 }}
+      />
+      <input
+        type="hidden"
+        value={customer_email}
+        name="customer_email"
+        ref={register}
       />
       <button
         className="btn waves-effect waves-light green"
@@ -176,6 +204,12 @@ function Profile() {
         </>
       ) : null}
       <h5>Update Payment Details</h5>
+      <button
+        className="btn waves-effect waves-light grey"
+        style={{ marginBottom: 10 }}
+        onClick={handleSubmit(deleteAccount)}>
+        Delete Account
+      </button>
     </div>
   );
 }

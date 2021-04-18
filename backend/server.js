@@ -75,6 +75,7 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/customerAddress", (req, res) => {
+  console.log(req.body);
   db.changeAddress(req, (cb) => {
     if (cb === 400) {
       res.status(400).send({ message: "no update" });
@@ -107,6 +108,16 @@ app.post("/uploads", (req, res) => {
       res.status(404).send({ message: "image failed" });
     } else if (cb === 200) {
       res.status(200).send({ message: "image changed" });
+    }
+  });
+});
+
+app.post("/account", (req, res) => {
+  db.deleteAccount(req, (cb) => {
+    if (cb === 400) {
+      res.status(400).send({ message: "deletion failed" });
+    } else if (cb === 200) {
+      res.status(200).send({ message: "deletion succesful" });
     }
   });
 });

@@ -94,11 +94,11 @@ const loginCustomer = (req, cb) => {
 
 const changeAddress = (req, res, cb) => {
   const customer_address = req.body.customer_address;
-  const customer_name = req.body.customer_name;
+  const customer_email = req.body.customer_email;
 
   const ChangeAddress =
-    "UPDATE customers SET customer_address = ? WHERE customer_name = ?";
-  db.query(ChangeAddress, [customer_address, customer_name], (err, res) => {
+    "UPDATE customers SET customer_address = ? WHERE customer_email = ?";
+  db.query(ChangeAddress, [customer_address, customer_email], (err, res) => {
     if (err) {
       cb(400);
       console.log(err);
@@ -112,12 +112,12 @@ const changeAddress = (req, res, cb) => {
 
 const changeImage = (req, res, cb) => {
   console.log(req.body.profile_picture);
-  const customer_name = req.body.customer_name;
+  const customer_email = req.body.customer_email;
   const profile_picture = req.body.profile_picture;
 
   const ChangeImage =
-    "UPDATE customers SET profile_picture = ? WHERE customer_name = ?";
-  db.query(ChangeImage, [profile_picture, customer_name], (err, res) => {
+    "UPDATE customers SET profile_picture = ? WHERE customer_email = ?";
+  db.query(ChangeImage, [profile_picture, customer_email], (err, res) => {
     if (err) {
       // cb(400);
       console.log(err);
@@ -125,6 +125,21 @@ const changeImage = (req, res, cb) => {
     }
     if (res) {
       console.log("image update good");
+    }
+  });
+};
+
+const deleteAccount = (req, res, cb) => {
+  const customer_email = req.body.customer_email;
+
+  const DeleteAccount = "DELETE FROM customers WHERE customer_email = ?;";
+
+  db.query(DeleteAccount, [customer_email], (err, res) => {
+    if (err) {
+      console.log(err);
+      console.log("account can't be deleted");
+    } else if (res) {
+      console.log("account deleted");
     }
   });
 };
@@ -201,5 +216,6 @@ module.exports = {
   sendOrder: sendOrder,
   changeAddress: changeAddress,
   changeImage: changeImage,
+  deleteAccount: deleteAccount,
   // uploadImage: uploadImage,
 };
