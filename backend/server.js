@@ -85,7 +85,7 @@ app.post("/customerAddress", (req, res) => {
 });
 
 app.post("/picture", async (req, res) => {
-  console.log(req);
+  // console.log(req);
   try {
     if (!req.files) {
       res.send({ message: "no files" });
@@ -99,15 +99,17 @@ app.post("/picture", async (req, res) => {
   }
 });
 
-// app.post("/picture", (req, res) => {
-//   db.uploadImage(req, (cb) => {
-//     if (cb === 404) {
-//       res.status(404).send({ message: "image failed" });
-//     } else if (cb === 200) {
-//       res.status(200).send({ message: "image changed" });
-//     }
-//   });
-// });
+app.post("/uploads", (req, res) => {
+  console.log(req);
+  console.log("uploads req");
+  db.changeImage(req, (cb) => {
+    if (cb === 404) {
+      res.status(404).send({ message: "image failed" });
+    } else if (cb === 200) {
+      res.status(200).send({ message: "image changed" });
+    }
+  });
+});
 
 app.get("/products", (req, res) => {
   db.showProducts((cb) => {

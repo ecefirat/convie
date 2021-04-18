@@ -6,6 +6,7 @@ function Profile() {
   const [customer_address, setCustomerAddress] = useState("");
   const [customer_name, setCustomerName] = useState("");
   const [imagePath, setImagePath] = useState("");
+  const [profile_picture, setProfilePicture] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:5000/sessionInfo", {
@@ -20,7 +21,9 @@ function Profile() {
         res.json().then((data) => {
           setCustomerAddress(data.user.customer_address);
           setCustomerName(data.user.customer_name);
-          setImagePath(data.user.imagePath);
+          setProfilePicture(data.user.profile_picture);
+          // const prof_pic = "http://localhost:5000/uploads" + profile_picture;
+          // console.log(prof_pic);
         });
       } else if (res.status === 400) {
         res.json().then((data) => {
@@ -32,6 +35,7 @@ function Profile() {
 
   const handleAddress = (data) => {
     console.log(data);
+    console.log("handleaddress");
     fetch("http://localhost:5000/customerAddress", {
       method: "POST",
       body: JSON.stringify(data),
@@ -62,6 +66,7 @@ function Profile() {
       body: formData,
       credentials: "include",
     }).then((res) => res.json());
+    console.log(res);
     const newImagePath = "http://localhost:5000/uploads/" + res.picture.name;
     console.log(newImagePath);
     setImagePath(newImagePath);
@@ -91,9 +96,33 @@ function Profile() {
     //   );
   };
 
+  const changeImage = (data) => {
+    console.log(data);
+    console.log("changeimage");
+    fetch("http://localhost:5000/uploads", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }).then((res) => {
+      if (res.status === 404) {
+        console.log("couldnt change");
+      }
+      if (res.status === 200) {
+        res.json().then((data) => {
+          console.log(data);
+          console.log("imagepath above");
+        });
+      }
+    });
+  };
+
   return (
     <div className="container">
       <h2>Hi {customer_name}!</h2>
+      <img src={profile_picture} alt="img" width="200px" height="200px" />
       <h5>Edit Address</h5>
       <p>{customer_address}</p>
       <input
@@ -129,7 +158,22 @@ function Profile() {
         upload
       </button>
       {imagePath ? (
-        <img src={imagePath} alt="img" width="200px" height="200px" />
+        <>
+          <img src={imagePath} alt="img" width="200px" height="200px" />
+          {console.log(profile_picture)}
+          <input
+            type="hidden"
+            value={imagePath}
+            name="profile_picture"
+            ref={register}
+          />
+          <button
+            className="btn waves-effect waves-light green"
+            style={{ display: "block" }}
+            onClick={handleSubmit(changeImage)}>
+            Set
+          </button>
+        </>
       ) : null}
       <h5>Update Payment Details</h5>
     </div>

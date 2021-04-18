@@ -110,6 +110,24 @@ const changeAddress = (req, res, cb) => {
   });
 };
 
+const changeImage = (req, res, cb) => {
+  console.log(req.body.profile_picture);
+  const customer_name = req.body.customer_name;
+  const profile_picture = req.body.profile_picture;
+
+  const ChangeImage =
+    "UPDATE customers SET profile_picture = ? WHERE customer_name = ?";
+  db.query(ChangeImage, [profile_picture, customer_name], (err, res) => {
+    if (err) {
+      // cb(400);
+      console.log(err);
+      console.log("image update failed");
+    }
+    if (res) {
+      console.log("image update good");
+    }
+  });
+};
 // const uploadImage = (req, res, cb) => {
 //   console.log(req.file);
 //   console.log("db upload");
@@ -182,5 +200,6 @@ module.exports = {
   showProducts: showProducts,
   sendOrder: sendOrder,
   changeAddress: changeAddress,
+  changeImage: changeImage,
   // uploadImage: uploadImage,
 };
