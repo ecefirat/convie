@@ -1,39 +1,31 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 
 function Footer() {
   return (
-    <div className="footer-container">
-      <div className="footer">
-        <footer>
-          <nav className="amber darken-1">
-            <div className="nav-wrapper footer-margin">
-              <ul className="footer-spread">
-                <li>
-                  <a href="/home">
-                    <i className="material-icons">home</i>
-                  </a>
-                </li>
-                <li>
-                  <a href="/search">
-                    <i className="material-icons">search</i>
-                  </a>
-                </li>
-                <li>
-                  <a href="/basket">
-                    <i className="material-icons">shopping_cart</i>
-                  </a>
-                </li>
-                <li>
-                  <a href="/history">
-                    <i className="material-icons">history</i>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-        </footer>
-      </div>
+    <div className="navbar-fixed">
+      <nav>
+        <div className="nav-wrapper amber darken-1">
+          <ul className="nav-mobile ">
+            <li>
+              <Link to="/">
+                <i className="material-icons">home</i>
+              </Link>
+            </li>
+            <li>
+              <Link to="/profile">
+                <i className="material-icons">account_circle</i>
+              </Link>
+            </li>
+            <li>
+              <Link to="/history">
+                <i className="material-icons">history</i>
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </div>
   );
 }

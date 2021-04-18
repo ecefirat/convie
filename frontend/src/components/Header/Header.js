@@ -7,10 +7,10 @@ function Header(props) {
     <div className="navbar-fixed">
       <nav>
         <div className="nav-wrapper amber darken-1">
-          <Link to="/" className="brand-logo left">
-            Convie
+          <Link to="/" className="brand-logo">
+            CONVIE
           </Link>
-          <ul className="nav-mobile right">
+          {/* <ul className="nav-mobile right">
             <li>
               <Link to="/profile">{props.profile}</Link>
             </li>
@@ -23,7 +23,7 @@ function Header(props) {
             <li>
               <Link to="/basket">{props.basket}</Link>
             </li>
-          </ul>
+          </ul> */}
         </div>
       </nav>
     </div>

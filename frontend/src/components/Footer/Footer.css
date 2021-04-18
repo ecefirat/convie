@@ -1,11 +1,4 @@
-.footer {
-    position:relative;
-    bottom:0;
-    left:0;
-    width:100%;
-}
-
-.footer-spread {
+.nav-mobile {
     display: flex;
     justify-content: space-evenly;
 }
