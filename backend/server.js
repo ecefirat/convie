@@ -46,7 +46,7 @@ app.use(
 app.use(fileUpload({ createParentPath: true }));
 
 app.post("/register", (req, res) => {
-  db.registerCustomer(req, res, (cb) => {
+  db.registerCustomer(req, (cb) => {
     if (cb === 400) {
       res.status(400).send({ message: "reg failed" });
     } else if (cb === 200) {
@@ -74,13 +74,19 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.status(200);
+});
+
 app.post("/customerAddress", (req, res) => {
   console.log(req.body);
   db.changeAddress(req, (cb) => {
     if (cb === 400) {
       res.status(400).send({ message: "no update" });
-    } else if (cb === 200) {
-      res.status(200).send({ message: "upddate success" });
+    } else {
+      req.session.user.customer_address = cb;
+      res.status(200).send({ message: cb });
     }
   });
 });
@@ -134,12 +140,25 @@ app.get("/products", (req, res) => {
 });
 
 app.post("/order", (req, res) => {
+  console.log(req);
+  console.log("order req");
   db.sendOrder(req, (cb) => {
     if (cb === 400) {
       // res.status(400).send({ message: "failed" });
       console.log("hey");
     } else if (cb === 200) {
       res.status(200).send({ message: "succ" });
+    }
+  });
+});
+
+app.post("/history", (req, res) => {
+  db.orderHistory(req, (cb) => {
+    if (cb === 405) {
+      res.status(405).send({ message: "failed" });
+    } else {
+      // console.log(cb);
+      res.status(200).send({ history: cb });
     }
   });
 });
