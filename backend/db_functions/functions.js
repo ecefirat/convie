@@ -14,7 +14,6 @@ const db = mysql.createPool({
 });
 
 const registerCustomer = (req, cb) => {
-  console.log(req.body.first_name);
   const first_name = req.body.first_name;
   const last_name = req.body.last_name;
   const email = req.body.email;
@@ -31,7 +30,7 @@ const registerCustomer = (req, cb) => {
       console.log(err);
     } else if (res.length > 0) {
       cb(409);
-    } else if ((res.length = 0)) {
+    } else {
       bcrypt.hash(password, saltRounds, (err, hash) => {
         if (err) {
           console.log(err);
@@ -92,7 +91,7 @@ const loginCustomer = (req, cb) => {
   });
 };
 
-const changeAddress = (req, res, cb) => {
+const changeAddress = (req, cb) => {
   const customer_address = req.body.customer_address;
   const customer_email = req.body.customer_email;
 
@@ -105,6 +104,7 @@ const changeAddress = (req, res, cb) => {
       console.log("update failed");
     }
     if (res) {
+      cb(customer_address);
       console.log("update good");
     }
   });
@@ -180,13 +180,16 @@ const showProducts = (cb) => {
 };
 
 const sendOrder = (req, cb) => {
+  console.log(req.body);
   const amount = req.body.totals;
+  const customer_id = req.body.customer_id;
   console.log(amount);
 
-  const SendOrder = "INSERT INTO orders(order_amount) VALUES (?);";
+  const SendOrder =
+    "INSERT INTO orders(order_amount, customer_id) VALUES (?, ?);";
   const SendOrderDetails = "INSERT INTO order_details(order_id) VALUES (?);";
 
-  db.query(SendOrder, [amount], (err, res) => {
+  db.query(SendOrder, [amount, customer_id], (err, res) => {
     if (err) {
       console.log("err sendorder");
       console.log(err);
@@ -209,6 +212,25 @@ const sendOrder = (req, cb) => {
   });
 };
 
+const orderHistory = (req, cb) => {
+  const customer_id = req.body.customer_id;
+  console.log(customer_id);
+  const OrderHistory = "SELECT * FROM orders WHERE customer_id = ?";
+
+  db.query(OrderHistory, [customer_id], (err, results) => {
+    if (err) {
+      console.log(err);
+      // cb(405);
+    } else if (results.length > 0) {
+      console.log(results);
+      cb(results);
+    } else if ((results.length = 0)) {
+      // cb(404);
+      console.log("hey");
+    }
+  });
+};
+
 module.exports = {
   registerCustomer: registerCustomer,
   loginCustomer: loginCustomer,
@@ -217,5 +239,6 @@ module.exports = {
   changeAddress: changeAddress,
   changeImage: changeImage,
   deleteAccount: deleteAccount,
+  orderHistory: orderHistory,
   // uploadImage: uploadImage,
 };
