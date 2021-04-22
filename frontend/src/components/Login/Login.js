@@ -36,7 +36,6 @@ function Login(props) {
   };
 
   return (
-    // <div className="container center-align">
     <div className="row">
       <form className="col s12" onSubmit={handleSubmit(submitCustomerLogin)}>
         <div className="row">
@@ -80,7 +79,6 @@ function Login(props) {
         </span>
       </div>
     </div>
-    // </div>
   );
 }
 

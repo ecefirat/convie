@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Login from "../Login/Login";
+import { useHistory } from "react-router-dom";
 
 function Profile() {
+  let history = useHistory();
   const { register, handleSubmit } = useForm();
   const [customer_address, setCustomerAddress] = useState("");
   const [customer_name, setCustomerName] = useState("");
   const [imagePath, setImagePath] = useState("");
   const [profile_picture, setProfilePicture] = useState("");
   const [customer_email, setCustomerEmail] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:5000/sessionInfo", {
@@ -24,6 +28,7 @@ function Profile() {
           setCustomerName(data.user.customer_name);
           setProfilePicture(data.user.profile_picture);
           setCustomerEmail(data.user.customer_email);
+          setLoggedIn(true);
           // const prof_pic = "http://localhost:5000/uploads" + profile_picture;
           // console.log(prof_pic);
         });
@@ -52,6 +57,7 @@ function Profile() {
       if (res.status === 200) {
         res.json().then((data) => {
           console.log(data);
+          setCustomerAddress(data.message);
           console.log("address above");
         });
       }
@@ -99,6 +105,7 @@ function Profile() {
   };
 
   const changeImage = (data) => {
+    setProfilePicture(data.profile_picture);
     console.log(data);
     console.log("changeimage");
     fetch("http://localhost:5000/uploads", {
@@ -141,75 +148,107 @@ function Profile() {
     });
   };
 
+  const handleLogout = () => {
+    fetch("http://localhost:5000/logout", {
+      method: "GET",
+      body: JSON.stringify(),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => res)
+      .then((res) => {
+        if (res.status === 200) {
+          res.json().then((data) => {
+            history.push("/");
+            history.go(0);
+          });
+        }
+      });
+  };
+
   return (
-    <div className="container">
-      <h2>Hi {customer_name}!</h2>
-      <img src={profile_picture} alt="img" width="200px" height="200px" />
-      <h5>Edit Address</h5>
-      <p>{customer_address}</p>
-      <input
-        type="text"
-        placeholder="Enter new address..."
-        name="customer_address"
-        ref={register}
-        style={{ marginBottom: 15 }}
-      />
-      <input
-        type="hidden"
-        value={customer_email}
-        name="customer_email"
-        ref={register}
-      />
-      <button
-        className="btn waves-effect waves-light green"
-        style={{ marginBottom: 10 }}
-        onClick={handleSubmit(handleAddress)}>
-        submit
-      </button>
-      <input
-        type="hidden"
-        value={customer_name}
-        name="customer_name"
-        ref={register}
-      />
-      <h5>Change Profile Picture</h5>
-      <input
-        type="file"
-        name="picture"
-        ref={register}
-        style={{ marginBottom: 15 }}
-      />
-      <button
-        className="btn waves-effect waves-light green"
-        style={{ marginBottom: 10 }}
-        onClick={handleSubmit(uploadImage)}>
-        upload
-      </button>
-      {imagePath ? (
-        <>
-          <img src={imagePath} alt="img" width="200px" height="200px" />
-          {console.log(profile_picture)}
+    <div>
+      {loggedIn ? (
+        <div className="container">
+          <h2>Hi {customer_name}!</h2>
+          <img src={profile_picture} alt="img" width="200px" height="200px" />
+          <h5>Edit Address</h5>
+          <p>{customer_address}</p>
+          <input
+            type="text"
+            placeholder="Enter new address..."
+            name="customer_address"
+            ref={register}
+            style={{ marginBottom: 15 }}
+          />
           <input
             type="hidden"
-            value={imagePath}
-            name="profile_picture"
+            value={customer_email}
+            name="customer_email"
             ref={register}
           />
           <button
             className="btn waves-effect waves-light green"
-            style={{ display: "block" }}
-            onClick={handleSubmit(changeImage)}>
-            Set
+            style={{ marginBottom: 10 }}
+            onClick={handleSubmit(handleAddress)}>
+            submit
           </button>
-        </>
-      ) : null}
-      <h5>Update Payment Details</h5>
-      <button
-        className="btn waves-effect waves-light grey"
-        style={{ marginBottom: 10 }}
-        onClick={handleSubmit(deleteAccount)}>
-        Delete Account
-      </button>
+          <input
+            type="hidden"
+            value={customer_name}
+            name="customer_name"
+            ref={register}
+          />
+          <h5>Change Profile Picture</h5>
+          <input
+            type="file"
+            name="picture"
+            ref={register}
+            style={{ marginBottom: 15 }}
+          />
+          <button
+            className="btn waves-effect waves-light green"
+            style={{ marginBottom: 10 }}
+            onClick={handleSubmit(uploadImage)}>
+            upload
+          </button>
+          {imagePath ? (
+            <>
+              <img src={imagePath} alt="img" width="200px" height="200px" />
+              {console.log(profile_picture)}
+              <input
+                type="hidden"
+                value={imagePath}
+                name="profile_picture"
+                ref={register}
+              />
+              <button
+                className="btn waves-effect waves-light green"
+                style={{ display: "block" }}
+                onClick={handleSubmit(changeImage)}>
+                Set
+              </button>
+            </>
+          ) : null}
+          <h5>Update Payment Details</h5>
+          <button
+            className="btn waves-effect waves-light grey"
+            style={{ marginBottom: 10 }}
+            onClick={handleSubmit(deleteAccount)}>
+            Delete Account
+          </button>
+          <button
+            style={{ marginBottom: 10 }}
+            className="btn waves-effect waves-light grey"
+            onClick={() => handleLogout()}>
+            Logout
+          </button>
+        </div>
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }

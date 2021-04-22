@@ -11,16 +11,17 @@ import Register from "../components/Register/Register";
 import "../containers/App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Orders } from "../components/Orders/Orders";
+import History from "../components/History/History";
 
 function App(props) {
   return (
     <Router>
       <div>
         <Header
-          profile="Profile"
-          // register="Register"
-          login="Login"
-          basket="Cart"
+        // profile="Profile"
+        // // register="Register"
+        // login="Login"
+        // basket="Cart"
         />
         <div className="container">
           <Switch>
@@ -29,6 +30,8 @@ function App(props) {
             <Route path="/login" component={Login}></Route>
             <Route path="/basket" component={Basket}></Route>
             <Route path="/orders" component={Orders}></Route>
+            <Route path="/history" component={History}></Route>
+            <Route path="/basket" component={Basket}></Route>
             <Route path="/" component={Main}></Route>
             {/* <Route component={NotFoundPage} /> */}
           </Switch>

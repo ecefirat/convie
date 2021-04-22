@@ -153,6 +153,7 @@ app.post("/order", (req, res) => {
 });
 
 app.post("/history", (req, res) => {
+  // let user_id = req.session.user.customer_id
   db.orderHistory(req, (cb) => {
     if (cb === 405) {
       res.status(405).send({ message: "failed" });
