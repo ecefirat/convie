@@ -1,0 +1,57 @@
+{"message":"hello","level":"info"}
+{"message":"hello","level":"info"}
+{"message":"hello","level":"info"}
+{"message":"hello","level":"info"}
+{"message":"hello","level":"info"}
+{"message":"helloooo","level":"info"}
+{"message":"helloooo","level":"info"}
+{"message":"hello","level":"info"}
+{"message":"sessions","level":"info"}
+{"message":"sessions","level":"info"}
+{"message":"hello","level":"info"}
+{"message":"sessions","level":"info"}
+{"level":"info"}
+{"message":"hello","level":"info"}
+{"message":"sessions","level":"info"}
+{"level":"warn"}
+{"message":"hello","level":"info"}
+{"message":"sessions","level":"info"}
+{"level":"warn"}
+{"message":"login","level":"warn"}
+{"message":"hello","level":"info"}
+{"message":"sessions","level":"info"}
+{"level":"warn"}
+{"message":"login","level":"warn"}
+{"message":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"},"level":"warn"}
+{"message":"hello","level":"info"}
+{"message":"login","level":"warn"}
+{"message":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"},"level":"warn"}
+{"message":"hello","level":"info"}
+{"message":"login","level":"warn"}
+{"message":8,"level":"warn"}
+{"message":"hello","level":"info"}
+{"message":"login","level":"warn"}
+{"message":8,"level":"warn"}
+{"message":"sessions","level":"info"}
+{"message":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"},"level":"warn"}
+{"message":"sessions","level":"info"}
+{"message":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"},"level":"warn"}
+{"message":"sessions","level":"info"}
+{"message":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"},"level":"warn"}
+{"message":"sessions","level":"info"}
+{"message":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"},"level":"warn"}
+{"message":"sessions","level":"info"}
+{"message":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"},"level":"warn"}
+{"message":"sessions","level":"info"}
+{"message":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"},"level":"warn"}
+{"message":"sessions","level":"info"}
+{"message":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"},"level":"warn"}
+{"message":"hello","level":"info"}
+{"message":"login","level":"warn"}
+{"message":8,"level":"warn"}
+{"message":"sessions","level":"info"}
+{"message":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"},"level":"info"}
+{"message":{"cookie":{"originalMaxAge":null,"expires":null,"secure":false,"httpOnly":true,"path":"/"},"user":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"}},"level":"info"}
+{"message":"sessions","level":"info"}
+{"message":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"},"level":"info"}
+{"message":{"cookie":{"originalMaxAge":null,"expires":null,"secure":false,"httpOnly":true,"path":"/"},"user":{"customer_id":8,"customer_name":"sugar","customer_surname":"f","customer_email":"admin@admin.com","customer_address":"new address","profile_picture":"http://localhost:5000/uploads/profilepic.jpeg"}},"level":"info"}

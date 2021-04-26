@@ -1,6 +1,3 @@
-//script start
-//nodemon server.js --exec babel-node -e js
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const db = require("./db_functions/functions");
@@ -9,12 +6,34 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { Cookie } = require("express-session");
 const fileUpload = require("express-fileupload");
+// const moment = require("moment");
 const path = require("path");
 require("dotenv").config({
   path: "/Users/ece/Downloads/convie/excludes/.env",
 });
 const app = express();
 const Port = 5000;
+
+const winston = require("winston");
+
+const logConfiguration = {
+  transports: [
+    new winston.transports.File({
+      filename: "./log/logger.log",
+    }),
+  ],
+};
+
+const logger = winston.createLogger(logConfiguration);
+
+logger.info("hello");
+
+// const logger = (req, res, next) => {
+//   console.log(moment().format());
+//   next();
+// };
+
+// app.use(logger);
 
 app.use(
   cors({
@@ -45,6 +64,21 @@ app.use(
 
 app.use(fileUpload({ createParentPath: true }));
 
+const rateLimit = require("express-rate-limit");
+
+// const dayLimiter = rateLimit({
+//   windowMs: 24 * 60 * 60 * 1000, // 24 hours
+//   max: 1000, // 1000 requests
+// });
+
+// const secondLimiter = rateLimit({
+//   windowMs: 1000, // 1 second
+//   max: 1, // 1 request
+// });
+
+// app.use(dayLimiter);
+// app.use(secondLimiter);
+
 app.post("/register", (req, res) => {
   db.registerCustomer(req, (cb) => {
     if (cb === 400) {
@@ -70,6 +104,8 @@ app.post("/login", (req, res) => {
     } else {
       req.session.user = cb[0];
       res.status(200).send({ message: "login success" });
+      logger.warn("login");
+      logger.warn(req.session.user.customer_id);
     }
   });
 });
@@ -167,6 +203,9 @@ app.post("/history", (req, res) => {
 app.get("/sessionInfo", (req, res) => {
   if (req.session.user) {
     res.status(200).send({ user: req.session.user });
+    logger.info("sessions");
+    logger.info(req.session.user);
+    logger.info(req.session);
   } else {
     res.status(400).send({ message: "not logged in" });
   }
