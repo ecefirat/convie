@@ -104,8 +104,6 @@ app.post("/login", (req, res) => {
     } else {
       req.session.user = cb[0];
       res.status(200).send({ message: "login success" });
-      logger.warn("login");
-      logger.warn(req.session.user.customer_id);
     }
   });
 });
@@ -206,6 +204,7 @@ app.get("/sessionInfo", (req, res) => {
     logger.info("sessions");
     logger.info(req.session.user);
     logger.info(req.session);
+    logger.warn(req.headers);
   } else {
     res.status(400).send({ message: "not logged in" });
   }

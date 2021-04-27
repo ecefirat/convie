@@ -1,6 +1,7 @@
 import React from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
+import DarkMode from "../DarkMode/DarkMode";
 
 function Header(props) {
   return (
@@ -10,6 +11,7 @@ function Header(props) {
           <Link to="/" className="brand-logo">
             CONVIE
           </Link>
+          <DarkMode />
           {/* <ul className="nav-mobile right">
             <li>
               <Link to="/profile">{props.profile}</Link>
