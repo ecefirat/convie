@@ -173,7 +173,7 @@ function Profile() {
       {loggedIn ? (
         <div className="container">
           <h2>Hi {customer_name}!</h2>
-          <img src={profile_picture} alt="img" width="200px" height="200px" />
+          <img src={profile_picture} alt="img" width="120px" height="120px" />
           <h5>Edit Address</h5>
           <p>{customer_address}</p>
           <input

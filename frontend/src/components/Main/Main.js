@@ -10,7 +10,10 @@ function Main(props) {
   let history = useHistory();
   // const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart"));
 
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(
+    JSON.parse(localStorage.getItem("cart")) || []
+  );
+  // localStorage.getItem("cart") ? localStorage.setItem("cart", cart) : []
   const [products, setProducts] = useState([]);
   const [loaded, setLoaded] = useState(false);
   //change this to if(!data) {return Loading}
@@ -102,7 +105,12 @@ function Main(props) {
   }, []);
 
   useEffect(() => {
+    // if (localStorage.getItem("cart")) {
+    //   localStorage.setItem("cart", JSON.stringify(cart));
+    //   // setCart(JSON.parse(localStorage.getItem("cart")));
+    // } else {
     localStorage.setItem("cart", JSON.stringify(cart));
+    // }
     calculateTotal();
   }, [cart]);
 
@@ -130,6 +138,12 @@ function Main(props) {
         )
       );
     }
+    setTotal(0);
+  };
+
+  const emptyCart = () => {
+    setCart([]);
+    setTotal(0);
   };
 
   const calculateTotal = () => {
@@ -147,7 +161,7 @@ function Main(props) {
   };
 
   return (
-    <div>
+    <div className="main">
       {loggedIn ? (
         <div className="row">
           <p>WELCOME {customer}</p>
@@ -168,11 +182,18 @@ function Main(props) {
                 onClick={() => handleSendOrder(total)}>
                 ${total} - ORDER
               </button>
+
               <Basket
                 cart={cart}
                 addtoCart={addtoCart}
                 removefromCart={removefromCart}
               />
+              <button
+                style={{ display: "block" }}
+                className="order-btn btn-small waves-effect waves-light red"
+                onClick={() => emptyCart()}>
+                Empty Cart
+              </button>
             </div>
           ) : (
             <div className="progress">

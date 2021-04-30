@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Basket.css";
 
 function Basket(props) {
   const { cart, addtoCart, removefromCart } = props;
-
   return (
     <div>
       <div>{cart && !cart.length && <div>Cart is empty.</div>}</div>

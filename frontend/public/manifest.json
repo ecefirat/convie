@@ -1,23 +1,32 @@
 {
-  "short_name": "Convie App",
-  "name": "Convie React Express App",
+  "short_name": "Convie",
+  "name": "Convie - Instant Grocery",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "images/logo.jpeg",
+      "src": "/images/convieLogo64.png",
       "type": "image/png",
-      "sizes": "120x99"
+      "sizes": "64x64"
     },
     {
-      "src": "logo512.png",
+      "src": "/images/convieLogo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/convieLogo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
+
   "start_url": "/index.html",
-  "display": "standalone"
+  "display": "standalone",
+  "background_color": "#fff8e1",
+  "theme_color": "#ffb300",
+  "description": "instant grocery delivery"
 }

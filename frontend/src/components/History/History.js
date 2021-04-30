@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Login from "../Login/Login";
+import HistoryDetails from "../HistoryDetails/HistoryDetails";
 
 function History() {
   const [customer_name, setCustomerName] = useState("");
@@ -69,15 +70,12 @@ function History() {
     <div>
       {loggedIn ? (
         <div>
-          order history {customer_name}
-          {customer_id}
+          <h2 className="header">Order History</h2>
+          <p>Customer Name: {customer_name}</p>
+          <p> Customer Number: {customer_id}</p>
+
           {history.map((row) => {
-            return (
-              <>
-                <p>{row.order_amount}</p>
-                <p>{row.order_date}</p>
-              </>
-            );
+            return <HistoryDetails key={row.order_id} row={row} />;
           })}
         </div>
       ) : (

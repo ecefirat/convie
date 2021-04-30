@@ -1,3 +1,7 @@
+.nav-wrapper {
+    position: fixed;
+    bottom: 0;
+}
 .nav-mobile {
     display: flex;
     justify-content: space-evenly;

@@ -4,29 +4,27 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <div className="navbar-fixed">
-      <nav>
-        <div className="nav-wrapper amber darken-1">
-          <ul className="nav-mobile ">
-            <li>
-              <Link to="/">
-                <i className="material-icons">home</i>
-              </Link>
-            </li>
-            <li>
-              <Link to="/profile">
-                <i className="material-icons">account_circle</i>
-              </Link>
-            </li>
-            <li>
-              <Link to="/history">
-                <i className="material-icons">history</i>
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>
+    <nav className="nav-wrapper amber darken-1">
+      {/* <div className="nav-wrapper amber darken-1"> */}
+      <ul className="nav-mobile ">
+        <li>
+          <Link to="/">
+            <i className="material-icons">home</i>
+          </Link>
+        </li>
+        <li>
+          <Link to="/profile">
+            <i className="material-icons">account_circle</i>
+          </Link>
+        </li>
+        <li>
+          <Link to="/history">
+            <i className="material-icons">history</i>
+          </Link>
+        </li>
+      </ul>
+      {/* </div> */}
+    </nav>
   );
 }
 

@@ -26,8 +26,20 @@ body.dark {
   --font-weight: 500;
 }
 
+body.dark div.card {
+  background-color: var(--white);
+}
 
-body {
+body.dark div.card-content {
+  color: var(--black)
+}
+
+
+
+
+
+
+/* body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
@@ -39,4 +51,4 @@ body {
   .thumbnail {
     max-height: 10rem;
     max-width: 7rem;
-  }
+  } */

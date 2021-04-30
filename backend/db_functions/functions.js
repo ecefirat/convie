@@ -215,7 +215,8 @@ const sendOrder = (req, cb) => {
 const orderHistory = (req, cb) => {
   const customer_id = req.body.customer_id;
   console.log(customer_id);
-  const OrderHistory = "SELECT * FROM orders WHERE customer_id = ?";
+  const OrderHistory =
+    "SELECT * FROM orders WHERE customer_id = ? ORDER BY order_id DESC";
 
   db.query(OrderHistory, [customer_id], (err, results) => {
     if (err) {

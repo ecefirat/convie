@@ -203,8 +203,9 @@ app.get("/sessionInfo", (req, res) => {
     res.status(200).send({ user: req.session.user });
     logger.info("sessions");
     logger.info(req.session.user);
-    logger.info(req.session);
+    logger.info(req.sessionID);
     logger.warn(req.headers);
+    logger.warn(req.ip);
   } else {
     res.status(400).send({ message: "not logged in" });
   }
