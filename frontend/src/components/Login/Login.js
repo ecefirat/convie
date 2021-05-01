@@ -37,33 +37,37 @@ function Login(props) {
 
   return (
     <div className="row">
-      <form className="col s12" onSubmit={handleSubmit(submitCustomerLogin)}>
-        <div className="row">
-          <div className="input-field col s12">
-            {/* <i className="material-icons prefix">alternate_email</i> */}
-            <input
-              id="email"
-              type="email"
-              className="validate"
-              name="email"
-              ref={register({ required: true })}
-            />
-            <label htmlFor=" icon_prefix email">Email</label>
-          </div>
+      <form onSubmit={handleSubmit(submitCustomerLogin)}>
+        {/* <div className="row"> */}
+        <div className="input-field col s12">
+          <i className="material-icons prefix">alternate_email</i>
+          <input
+            id="email"
+            type="email"
+            className="validate"
+            name="email"
+            ref={register({
+              required: true,
+            })}
+          />
+          <label htmlFor=" icon_prefix email">Email</label>
         </div>
-        <div className="row">
-          <div className="input-field col s12">
-            <i className="material-icons prefix">lock</i>
-            <input
-              id="password"
-              type="password"
-              className="validate"
-              name="password"
-              ref={register({ required: true })}
-            />
-            <label htmlFor="password">Password</label>
-          </div>
+        {/* </div> */}
+        {/* <div className="row"> */}
+        <div className="input-field col s12">
+          <i className="material-icons prefix">lock</i>
+          <input
+            id="password"
+            type="password"
+            className="validate"
+            name="password"
+            ref={register({
+              required: true,
+            })}
+          />
+          <label htmlFor="password">Password</label>
         </div>
+        {/* </div> */}
         <button className="btn waves-effect waves-light green" type="submit">
           Login
           <i className="material-icons right">send</i>

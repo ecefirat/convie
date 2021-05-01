@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Redirect, useHistory } from "react-router-dom";
 import Login from "../Login/Login";
-import { useHistory } from "react-router-dom";
 
 function Profile() {
   let history = useHistory();
@@ -29,6 +29,7 @@ function Profile() {
           setProfilePicture(data.user.profile_picture);
           setCustomerEmail(data.user.customer_email);
           setLoggedIn(true);
+          history.push("/profile");
           // const prof_pic = "http://localhost:5000/uploads" + profile_picture;
           // console.log(prof_pic);
         });
@@ -78,30 +79,6 @@ function Profile() {
     const newImagePath = "http://localhost:5000/uploads/" + res.picture.name;
     console.log(newImagePath);
     setImagePath(newImagePath);
-
-    //   const uploadImage = (data) => {
-
-    //     fetch("http://localhost:5000/picture", {
-    //       method: "POST",
-    //       body: JSON.stringify(data),
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       credentials: "include",
-    //     });
-    //   };
-
-    //   {
-    //     if (res.status === 404) {
-    //       console.log("image upload failed");
-    //     } else if (res.status === 200) {
-    //       res.json().then((imagePath) => {
-    //         console.log(imagePath);
-    //         console.log("pic above");
-    //       });
-    //     }
-    //   }
-    //   );
   };
 
   const changeImage = (data) => {
@@ -157,12 +134,13 @@ function Profile() {
       },
       credentials: "include",
     })
-      .then((res) => res)
+      // .then((res) => res)
       .then((res) => {
         if (res.status === 200) {
           res.json().then((data) => {
-            history.push("/");
-            history.go(0);
+            setLoggedIn(false);
+            history.push("/login");
+            // history.go(0);
           });
         }
       });
@@ -177,12 +155,20 @@ function Profile() {
           <h5>Edit Address</h5>
           <p>{customer_address}</p>
           <input
+            id="customer_address"
             type="text"
             placeholder="Enter new address..."
+            className="validate"
             name="customer_address"
-            ref={register}
+            ref={register({
+              required: true,
+              pattern: /[A-Za-z0-9]{1,}$/,
+              maxLength: 150,
+            })}
             style={{ marginBottom: 15 }}
           />
+          {/* {errors.customer_address && <span>enter valid address</span>} */}
+          {/* <label htmlFor="last_name">Last Name</label> */}
           <input
             type="hidden"
             value={customer_email}
@@ -247,7 +233,12 @@ function Profile() {
           </button>
         </div>
       ) : (
-        <Login />
+        <>
+          <div className="progress">
+            <div className="indeterminate"></div>
+          </div>
+          {/* <Redirect to="/login" /> */}
+        </>
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import Product from "../Products/Product/Product";
 import Basket from "../Basket/Basket";
 import Orders from "../Orders/Orders";
@@ -23,54 +23,34 @@ function Main(props) {
   const [customer_id, setCustomerId] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const handleSendOrder = (totall) => {
-    fetch("http://localhost:5000/order", {
-      method: "POST",
-      body: JSON.stringify({ totals: totall, customer_id: customer_id }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    })
-      .then((res) => {
-        console.log(res);
-        console.log("first");
-        if (res.status === 400) {
-          res.json().then((data) => {
-            console.log(data);
-          });
-        } else if (res.status === 200) {
-          res.json().then((data) => {
-            console.log(data);
-            history.push("/orders");
-          });
-        }
-      })
-      .catch((error) => console.log(error));
-  };
-
   useEffect(() => {
-    fetch("http://localhost:5000/sessionInfo", {
-      method: "GET",
-      body: JSON.stringify(),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    }).then((res) => {
-      if (res.status === 200) {
-        res.json().then((data) => {
-          console.log(data);
-          setCustomer(data.user.customer_name);
-          setCustomerId(data.user.customer_id);
-          setLoggedIn(true);
-        });
-      } else if (res.status === 400) {
-        res.json().then((data) => {
-          console.log(data);
-        });
-      }
-    });
+    async function fetchSes() {
+      const req = await fetch("http://localhost:5000/sessionInfo", {
+        method: "GET",
+        body: JSON.stringify(),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            res.json().then((data) => {
+              console.log(data);
+              setCustomer(data.user.customer_name);
+              setCustomerId(data.user.customer_id);
+              setLoggedIn(true);
+            });
+          } else if (res.status === 400) {
+            res.json().then((data) => {
+              console.log(data);
+            });
+          }
+        })
+        .catch((error) => console.log(error));
+      return req;
+    }
+    fetchSes();
   }, []);
 
   useEffect(() => {
@@ -113,6 +93,32 @@ function Main(props) {
     // }
     calculateTotal();
   }, [cart]);
+
+  const handleSendOrder = (totall) => {
+    fetch("http://localhost:5000/order", {
+      method: "POST",
+      body: JSON.stringify({ totals: totall, customer_id: customer_id }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        console.log(res);
+        console.log("first");
+        if (res.status === 400) {
+          res.json().then((data) => {
+            console.log(data);
+          });
+        } else if (res.status === 200) {
+          res.json().then((data) => {
+            console.log(data);
+            history.push("/orders");
+          });
+        }
+      })
+      .catch((error) => console.log(error));
+  };
 
   const addtoCart = (product) => {
     const exists = cart.find((i) => i.pID === product.pID);
@@ -202,7 +208,9 @@ function Main(props) {
           )}
         </div>
       ) : (
-        <Login />
+        <div className="progress">
+          <div className="indeterminate"></div>
+        </div>
       )}
     </div>
   );

@@ -33,8 +33,6 @@ function History() {
   }, []);
 
   useEffect(() => {
-    console.log(customer_id);
-    console.log("customer_id");
     async function fetchAPI() {
       const request = await fetch("http://localhost:5000/history", {
         method: "POST",
@@ -68,7 +66,7 @@ function History() {
 
   return (
     <div>
-      {loggedIn ? (
+      {loggedIn && history ? (
         <div>
           <h2 className="header">Order History</h2>
           <p>Customer Name: {customer_name}</p>
