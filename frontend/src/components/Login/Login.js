@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "./Login.css";
 
@@ -26,6 +26,7 @@ function Login(props) {
         }
         if (res.status === 200) {
           history.push("/");
+          history.go();
         }
         console.log(res.status);
         res.json().then((data) => {

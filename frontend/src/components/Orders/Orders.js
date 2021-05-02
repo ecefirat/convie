@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export const Orders = (props) => {
   const { total } = props;
@@ -32,7 +33,7 @@ export const Orders = (props) => {
       <h2>Thank you {customer}!</h2>
       <h3>Your order has been placed.{total}</h3>
       <p>
-        See <a href="http://localhost:3000/history">Order History</a>
+        See <Link to="/history">Order History</Link>
       </p>
     </div>
   );

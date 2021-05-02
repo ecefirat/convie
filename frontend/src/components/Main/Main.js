@@ -6,7 +6,21 @@ import Orders from "../Orders/Orders";
 import "./Main.css";
 import Login from "../Login/Login";
 
+import { css } from "@emotion/core";
+import { jsx } from "@emotion/react";
+import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+
+// Can be a string as well. Need to ensure each key-value pair ends with ;
+const override = css`
+  display: block;
+  margin: 30vh auto 5vh;
+  border-color: red;
+`;
+
 function Main(props) {
+  let [loading, setLoading] = useState(true);
+  let [color, setColor] = useState("#ffb300");
+
   let history = useHistory();
   // const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart"));
 
@@ -113,6 +127,7 @@ function Main(props) {
         } else if (res.status === 200) {
           res.json().then((data) => {
             console.log(data);
+            setCart([]);
             history.push("/orders");
           });
         }
@@ -170,7 +185,7 @@ function Main(props) {
     <div className="main">
       {loggedIn ? (
         <div className="row">
-          <p>WELCOME {customer}</p>
+          <h4>WELCOME {customer}</h4>
           {loaded ? (
             <div>
               {products.map((product) => {
@@ -202,15 +217,42 @@ function Main(props) {
               </button>
             </div>
           ) : (
-            <div className="progress">
-              <div className="indeterminate"></div>
-            </div>
+            <ClimbingBoxLoader
+              color={color}
+              loading={loading}
+              css={override}
+              size={15}
+            />
           )}
         </div>
       ) : (
-        <div className="progress">
-          <div className="indeterminate"></div>
-        </div>
+        /* <>
+          <div className="progress">
+            <div className="indeterminate"></div>
+          </div>
+          <p>Please login to continue...</p>
+          <Login />
+        </> */
+
+        /* <div className="sweet-loading">
+          <button onClick={() => setLoading(!loading)}>Toggle Loader</button>
+          <input
+            value={color}
+            onChange={(input) => setColor(input.target.value)}
+            placeholder="Color of the loader"
+          /> */
+        <>
+          <ClimbingBoxLoader
+            color={color}
+            loading={loading}
+            css={override}
+            size={20}
+          />
+          <p></p>
+          <p>Please login to continue...</p>
+          <Login />
+        </>
+        /* </div> */
       )}
     </div>
   );

@@ -110,7 +110,7 @@ app.post("/login", (req, res) => {
 
 app.get("/logout", (req, res) => {
   req.session.destroy();
-  res.status(200);
+  res.sendStatus(200);
 });
 
 app.post("/customerAddress", (req, res) => {

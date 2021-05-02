@@ -134,14 +134,12 @@ function Profile() {
       },
       credentials: "include",
     })
-      // .then((res) => res)
+      .then((res) => res)
       .then((res) => {
         if (res.status === 200) {
-          res.json().then((data) => {
-            setLoggedIn(false);
-            history.push("/login");
-            // history.go(0);
-          });
+          setLoggedIn(false);
+          history.push("/login");
+          // history.go();
         }
       });
   };
@@ -150,7 +148,7 @@ function Profile() {
     <div>
       {loggedIn ? (
         <div className="container">
-          <h2>Hi {customer_name}!</h2>
+          <h4>Hi {customer_name}!</h4>
           <img src={profile_picture} alt="img" width="120px" height="120px" />
           <h5>Edit Address</h5>
           <p>{customer_address}</p>
@@ -161,7 +159,6 @@ function Profile() {
             className="validate"
             name="customer_address"
             ref={register({
-              required: true,
               pattern: /[A-Za-z0-9]{1,}$/,
               maxLength: 150,
             })}
@@ -237,7 +234,8 @@ function Profile() {
           <div className="progress">
             <div className="indeterminate"></div>
           </div>
-          {/* <Redirect to="/login" /> */}
+          <p>Please login to continue...</p>
+          <Login />
         </>
       )}
     </div>

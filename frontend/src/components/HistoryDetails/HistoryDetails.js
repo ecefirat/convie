@@ -1,7 +1,11 @@
 import React from "react";
+import { useForm } from "react-hook-form";
 
 const HistoryDetails = (props) => {
-  const { row } = props;
+  const { register, handleSubmit } = useForm();
+
+  const { row, deleteOrder } = props;
+
   return (
     <div className="col s12 m7">
       <div className="card horizontal" style={{ marginBottom: 25 }}>
@@ -15,7 +19,14 @@ const HistoryDetails = (props) => {
             <p>Address: {row.order_address}</p>
             <p>Date: {row.order_date}</p>
           </div>
-          <button className="btn-floating btn-small halfway-fab waves-effect waves-light red">
+          <input
+            type="hidden"
+            name="order_id"
+            value={row.order_id}
+            ref={register}></input>
+          <button
+            onClick={handleSubmit(deleteOrder)}
+            className="btn-floating btn-small halfway-fab waves-effect waves-light red">
             <i className="material-icons">delete</i>
           </button>
         </div>

@@ -62,7 +62,27 @@ function History() {
     fetchAPI();
   }, [customer_id]);
 
-  useEffect(() => {});
+  const deleteOrder = (data) => {
+    console.log(data);
+    console.log("deleteorder");
+    fetch("http://localhost:5000/orders", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }).then((res) => {
+      if (res.status === 400) {
+        console.log("can't delete");
+      } else if (res.status === 200) {
+        res.json().then((data) => {
+          console.log(data);
+          console.log("image deleted");
+        });
+      }
+    });
+  };
 
   return (
     <div>
@@ -73,11 +93,23 @@ function History() {
           <p> Customer Number: {customer_id}</p>
 
           {history.map((row) => {
-            return <HistoryDetails key={row.order_id} row={row} />;
+            return (
+              <HistoryDetails
+                key={row.order_id}
+                row={row}
+                deleteOrder={deleteOrder}
+              />
+            );
           })}
         </div>
       ) : (
-        <Login />
+        <>
+          <div className="progress">
+            <div className="indeterminate"></div>
+          </div>
+          <p>Please login to continue...</p>
+          <Login />
+        </>
       )}
     </div>
   );
