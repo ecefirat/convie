@@ -134,7 +134,7 @@ function Register(props) {
             {errors.password && (
               <span>
                 Your password should contain at least one number, one upper case
-                and one lower case letter and must be 8 charachters long.
+                and one lower case letter and must be 8 characters long.
               </span>
             )}
             <label htmlFor="password">Password</label>

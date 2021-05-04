@@ -5,7 +5,7 @@ import Login from "../Login/Login";
 
 function Profile() {
   let history = useHistory();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const [customer_address, setCustomerAddress] = useState("");
   const [customer_name, setCustomerName] = useState("");
   const [imagePath, setImagePath] = useState("");
@@ -105,6 +105,7 @@ function Profile() {
     });
   };
 
+  // not finished and tested yet
   const deleteAccount = (data) => {
     fetch("http://localhost:5000/account", {
       method: "POST",
@@ -164,13 +165,20 @@ function Profile() {
             })}
             style={{ marginBottom: 15 }}
           />
-          {/* {errors.customer_address && <span>enter valid address</span>} */}
-          {/* <label htmlFor="last_name">Last Name</label> */}
+          {errors.customer_address && (
+            <span style={{ display: "block" }}>
+              Please enter a valid address.
+            </span>
+          )}
           <input
             type="hidden"
             value={customer_email}
             name="customer_email"
-            ref={register}
+            ref={register({
+              pattern: /[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$/,
+              minLength: 10,
+              maxLength: 50,
+            })}
           />
           <button
             className="btn waves-effect waves-light green"
@@ -182,18 +190,23 @@ function Profile() {
             type="hidden"
             value={customer_name}
             name="customer_name"
-            ref={register}
+            ref={register({
+              pattern: /^[A-Z]{1}[A-Z a-z]{2,}/,
+              maxlength: 25,
+              minLength: 2,
+            })}
           />
           <h5>Change Profile Picture</h5>
           <input
             type="file"
             name="picture"
+            accept=".jpg, .jpeg, .png"
             ref={register}
             style={{ marginBottom: 15 }}
           />
           <button
             className="btn waves-effect waves-light green"
-            style={{ marginBottom: 10 }}
+            style={{ marginBottom: 10, display: "block" }}
             onClick={handleSubmit(uploadImage)}>
             upload
           </button>
@@ -217,13 +230,13 @@ function Profile() {
           ) : null}
           <h5>Update Payment Details</h5>
           <button
-            className="btn waves-effect waves-light grey"
-            style={{ marginBottom: 10 }}
+            className="btn waves-effect waves-light grey disabled"
+            style={{ marginBottom: 70, marginRight: 10 }}
             onClick={handleSubmit(deleteAccount)}>
             Delete Account
           </button>
           <button
-            style={{ marginBottom: 10 }}
+            style={{ marginBottom: 70 }}
             className="btn waves-effect waves-light grey"
             onClick={() => handleLogout()}>
             Logout
@@ -231,9 +244,9 @@ function Profile() {
         </div>
       ) : (
         <>
-          <div className="progress">
+          {/* <div className="progress">
             <div className="indeterminate"></div>
-          </div>
+          </div> */}
           <p>Please login to continue...</p>
           <Login />
         </>

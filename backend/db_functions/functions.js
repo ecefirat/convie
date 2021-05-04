@@ -77,10 +77,13 @@ const loginCustomer = (req, cb) => {
       bcrypt.compare(password, result[0].customer_password, (err, response) => {
         if (err) {
           console.log(err);
+        } else if (!response) {
+          cb(401);
+          console.log("passwords dont match");
         } else if (response) {
           db.query(loginCustomer, [email], (error, res) => {
             if (error) {
-              cb(400);
+              console.log(error);
             } else if (res) {
               cb(res);
             }
@@ -180,16 +183,16 @@ const showProducts = (cb) => {
 };
 
 const sendOrder = (req, cb) => {
-  console.log(req.body);
   const amount = req.body.totals;
   const customer_id = req.body.customer_id;
+  const customer_address = req.body.customer_address;
   console.log(amount);
 
   const SendOrder =
-    "INSERT INTO orders(order_amount, customer_id) VALUES (?, ?);";
+    "INSERT INTO orders(order_amount, customer_id, order_address) VALUES (?, ?, ?);";
   const SendOrderDetails = "INSERT INTO order_details(order_id) VALUES (?);";
 
-  db.query(SendOrder, [amount, customer_id], (err, res) => {
+  db.query(SendOrder, [amount, customer_id, customer_address], (err, res) => {
     if (err) {
       console.log("err sendorder");
       console.log(err);
@@ -233,6 +236,22 @@ const orderHistory = (req, cb) => {
   });
 };
 
+const deleteOrder = (req, cb) => {
+  const order_id = req.body.order_id;
+
+  const DeleteOrder = "DELETE FROM orders WHERE order_id= ?";
+
+  db.query(DeleteOrder, [order_id], (err, res) => {
+    if (err) {
+      cb(400);
+      console.log(err);
+    } else {
+      cb(order_id);
+      console.log("order deleted");
+    }
+  });
+};
+
 module.exports = {
   registerCustomer: registerCustomer,
   loginCustomer: loginCustomer,
@@ -242,5 +261,5 @@ module.exports = {
   changeImage: changeImage,
   deleteAccount: deleteAccount,
   orderHistory: orderHistory,
-  // uploadImage: uploadImage,
+  deleteOrder: deleteOrder,
 };

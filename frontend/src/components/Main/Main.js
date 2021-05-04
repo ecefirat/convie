@@ -13,7 +13,7 @@ import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
   display: block;
-  margin: 30vh auto 5vh;
+  margin: 25vh auto 5vh;
   border-color: red;
 `;
 
@@ -35,6 +35,7 @@ function Main(props) {
   const [total, setTotal] = useState(0);
   const [customer, setCustomer] = useState("");
   const [customer_id, setCustomerId] = useState("");
+  const [customer_address, setCustomerAddress] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -53,6 +54,7 @@ function Main(props) {
               console.log(data);
               setCustomer(data.user.customer_name);
               setCustomerId(data.user.customer_id);
+              setCustomerAddress(data.user.customer_address);
               setLoggedIn(true);
             });
           } else if (res.status === 400) {
@@ -111,7 +113,11 @@ function Main(props) {
   const handleSendOrder = (totall) => {
     fetch("http://localhost:5000/order", {
       method: "POST",
-      body: JSON.stringify({ totals: totall, customer_id: customer_id }),
+      body: JSON.stringify({
+        totals: totall,
+        customer_id: customer_id,
+        customer_address: customer_address,
+      }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -187,35 +193,38 @@ function Main(props) {
         <div className="row">
           <h4>WELCOME {customer}</h4>
           {loaded ? (
-            <div>
-              {products.map((product) => {
-                return (
-                  <Product
-                    key={product.pID}
-                    product={product}
-                    addtoCart={addtoCart}
-                    removefromCart={removefromCart}
-                  />
-                );
-              })}
-              <button
-                className="order-btn btn waves-effect waves-light green"
-                onClick={() => handleSendOrder(total)}>
-                ${total} - ORDER
-              </button>
-
-              <Basket
-                cart={cart}
-                addtoCart={addtoCart}
-                removefromCart={removefromCart}
-              />
-              <button
-                style={{ display: "block" }}
-                className="order-btn btn-small waves-effect waves-light red"
-                onClick={() => emptyCart()}>
-                Empty Cart
-              </button>
-            </div>
+            <>
+              <div style={{ display: "inline-block" }}>
+                {products.map((product) => {
+                  return (
+                    <Product
+                      key={product.pID}
+                      product={product}
+                      addtoCart={addtoCart}
+                      removefromCart={removefromCart}
+                    />
+                  );
+                })}
+              </div>
+              <div>
+                <button
+                  className="order-btn btn waves-effect waves-light green"
+                  onClick={() => handleSendOrder(total)}>
+                  ${total} - ORDER
+                </button>
+                <Basket
+                  cart={cart}
+                  addtoCart={addtoCart}
+                  removefromCart={removefromCart}
+                />
+                <button
+                  style={{ display: "block" }}
+                  className="order-btn btn-small waves-effect waves-light red"
+                  onClick={() => emptyCart()}>
+                  Empty Cart
+                </button>
+              </div>
+            </>
           ) : (
             <ClimbingBoxLoader
               color={color}

@@ -1,9 +1,9 @@
 import React from "react";
 
 function Product(props) {
-  const { product, addtoCart, removefromCart } = props;
+  const { product, addtoCart } = props;
   return (
-    <div className="col s4" key={product.pID}>
+    <div className="col s4 m2 l2" key={product.pID}>
       <div className="card">
         <div className="card-image">
           <img src={product.pImage} alt={product.pName} />
@@ -12,11 +12,6 @@ function Product(props) {
             onClick={() => addtoCart(product)}>
             <i className="material-icons">add</i>
           </button>
-          {/* <button
-            className="btn-floating btn-small halfway-fab waves-effect waves-light red"
-            onClick={() => removefromCart(product)}>
-            <i className="material-icons">remove</i>
-          </button> */}
           <div className="card-content">
             <p>{product.pName}</p>
             <p>${product.pPrice}</p>

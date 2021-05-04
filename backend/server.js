@@ -6,13 +6,13 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const { Cookie } = require("express-session");
 const fileUpload = require("express-fileupload");
-// const moment = require("moment");
 const path = require("path");
 require("dotenv").config({
   path: "/Users/ece/Downloads/convie/excludes/.env",
 });
 const app = express();
 const Port = 5000;
+const { body, validationResult } = require("express-validator");
 
 const winston = require("winston");
 
@@ -79,54 +79,86 @@ const rateLimit = require("express-rate-limit");
 // app.use(dayLimiter);
 // app.use(secondLimiter);
 
-app.post("/register", (req, res) => {
-  db.registerCustomer(req, (cb) => {
-    if (cb === 400) {
-      res.status(400).send({ message: "reg failed" });
-    } else if (cb === 200) {
-      res.status(200).send({ message: "reg success" });
-    } else if (cb === 401) {
-      res.status(401).send({ message: "reg heyhey" });
-    } else if (cb === 409) {
-      res.status(409).send({ message: "user exists" });
-    } else {
-      console.log("something wrong");
-    }
-  });
-});
+app.post(
+  "/register",
+  body("first_name").isAlpha(),
+  body("last_name").isAlpha(),
+  body("email").isEmail(),
+  body("password").isLength({ min: 8, max: 8 }),
+  body("password").isAlphanumeric(),
 
-app.post("/login", (req, res) => {
-  db.loginCustomer(req, (cb) => {
-    if (cb === 400) {
-      res.status(400).send({ message: "login failed" });
-    } else if (cb === 404) {
-      res.status(404).send({ message: "user does not exist" });
-    } else {
-      req.session.user = cb[0];
-      res.status(200).send({ message: "login success" });
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-  });
-});
+    db.registerCustomer(req, (cb) => {
+      if (cb === 400) {
+        res.status(400).send({ message: "reg failed" });
+      } else if (cb === 200) {
+        res.status(200).send({ message: "reg success" });
+      } else if (cb === 401) {
+        res.status(401).send({ message: "reg heyhey" });
+      } else if (cb === 409) {
+        res.status(409).send({ message: "user exists" });
+      } else {
+        console.log("something wrong");
+      }
+    });
+  }
+);
+
+app.post(
+  "/login",
+  body("email").isEmail(),
+  body("password").isLength({ min: 8 }),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    db.loginCustomer(req, (cb) => {
+      if (cb === 400) {
+        res.status(400).send({ message: "login failed" });
+      } else if (cb === 404) {
+        res.status(404).send({ message: "user does not exist" });
+      } else if (cb === 401) {
+        res.status(401).send({ messsage: "password incorrect" });
+      } else {
+        req.session.user = cb[0];
+        res.status(200).send({ message: "login success" });
+      }
+    });
+  }
+);
 
 app.get("/logout", (req, res) => {
   req.session.destroy();
   res.sendStatus(200);
 });
 
-app.post("/customerAddress", (req, res) => {
-  console.log(req.body);
-  db.changeAddress(req, (cb) => {
-    if (cb === 400) {
-      res.status(400).send({ message: "no update" });
-    } else {
-      req.session.user.customer_address = cb;
-      res.status(200).send({ message: cb });
-    }
-  });
-});
+app.post(
+  "/customerAddress",
+  // body("customer_address").isAlphanumeric(),
+
+  (req, res) => {
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   return res.status(400).json({ errors: errors.array() });
+    // }
+    db.changeAddress(req, (cb) => {
+      if (cb === 400) {
+        res.status(400).send({ message: "no update" });
+      } else {
+        req.session.user.customer_address = cb;
+        res.status(200).send({ message: cb });
+      }
+    });
+  }
+);
 
 app.post("/picture", async (req, res) => {
-  // console.log(req);
+  // implement validation
   try {
     if (!req.files) {
       res.send({ message: "no files" });
@@ -141,8 +173,7 @@ app.post("/picture", async (req, res) => {
 });
 
 app.post("/uploads", (req, res) => {
-  console.log(req);
-  console.log("uploads req");
+  // implement validation
   db.changeImage(req, (cb) => {
     if (cb === 404) {
       res.status(404).send({ message: "image failed" });
@@ -192,8 +223,17 @@ app.post("/history", (req, res) => {
     if (cb === 405) {
       res.status(405).send({ message: "failed" });
     } else {
-      // console.log(cb);
       res.status(200).send({ history: cb });
+    }
+  });
+});
+
+app.post("/orders", (req, res) => {
+  db.deleteOrder(req, (cb) => {
+    if (cb === 400) {
+      res.status(400).send({ message: "order cannot be deleted" });
+    } else {
+      res.status(200).send({ order_id: cb });
     }
   });
 });
@@ -214,9 +254,3 @@ app.get("/sessionInfo", (req, res) => {
 app.listen(Port, () => {
   console.log(`it's listening on port ${Port}`);
 });
-
-// error handling
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).send(`the error is:  ${err.stack}`);
-// });

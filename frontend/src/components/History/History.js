@@ -77,26 +77,29 @@ function History() {
         console.log("can't delete");
       } else if (res.status === 200) {
         res.json().then((data) => {
-          console.log(data);
-          console.log("image deleted");
+          console.log(data.order_id);
+          console.log("order details are deleted");
+          document.getElementById(
+            "deleteOrder"
+          ).innerHTML = `Order ${data.order_id} is deleted.`;
         });
       }
     });
   };
 
   return (
-    <div>
+    <div style={{ marginBottom: 70 }}>
       {loggedIn && history ? (
         <div>
           <h2 className="header">Order History</h2>
           <p>Customer Name: {customer_name}</p>
-          <p> Customer Number: {customer_id}</p>
-
-          {history.map((row) => {
+          <p>Customer Number: {customer_id}</p>
+          <p id="deleteOrder" style={{ color: "red" }}></p>
+          {history.map((order) => {
             return (
               <HistoryDetails
-                key={row.order_id}
-                row={row}
+                key={order.order_id}
+                order={order}
                 deleteOrder={deleteOrder}
               />
             );
@@ -104,9 +107,9 @@ function History() {
         </div>
       ) : (
         <>
-          <div className="progress">
+          {/* <div className="progress">
             <div className="indeterminate"></div>
-          </div>
+          </div> */}
           <p>Please login to continue...</p>
           <Login />
         </>
