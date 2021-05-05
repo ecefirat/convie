@@ -60,6 +60,7 @@ function Main(props) {
           } else if (res.status === 400) {
             res.json().then((data) => {
               console.log(data);
+              history.push("/login");
             });
           }
         })
@@ -257,9 +258,6 @@ function Main(props) {
             css={override}
             size={20}
           />
-          <p></p>
-          <p>Please login to continue...</p>
-          <Login />
         </>
         /* </div> */
       )}

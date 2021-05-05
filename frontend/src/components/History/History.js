@@ -27,6 +27,7 @@ function History() {
       } else if (res.status === 400) {
         res.json().then((data) => {
           console.log(data);
+          history.push("/login");
         });
       }
     });
@@ -89,7 +90,7 @@ function History() {
 
   return (
     <div style={{ marginBottom: 70 }}>
-      {loggedIn && history ? (
+      {history.length > 0 ? (
         <div>
           <h2 className="header">Order History</h2>
           <p>Customer Name: {customer_name}</p>
@@ -111,7 +112,6 @@ function History() {
             <div className="indeterminate"></div>
           </div> */}
           <p>Please login to continue...</p>
-          <Login />
         </>
       )}
     </div>
