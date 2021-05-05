@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Redirect, useHistory } from "react-router-dom";
-import Login from "../Login/Login";
+import { useHistory } from "react-router-dom";
+
+import { css } from "@emotion/core";
+// import { jsx } from "@emotion/react";
+import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+
+// Can be a string as well. Need to ensure each key-value pair ends with ;
+const override = css`
+  display: block;
+  margin: 35vh auto 5vh;
+  border-color: red;
+`;
 
 function Profile() {
+  let [loading, setLoading] = useState(true);
+  let [color, setColor] = useState("#ffb300");
+
   let history = useHistory();
   const { register, handleSubmit, errors } = useForm();
   const [customer_address, setCustomerAddress] = useState("");
@@ -36,6 +49,7 @@ function Profile() {
       } else if (res.status === 400) {
         res.json().then((data) => {
           console.log(data);
+          history.push("login");
         });
       }
     });
@@ -243,13 +257,12 @@ function Profile() {
           </button>
         </div>
       ) : (
-        <>
-          {/* <div className="progress">
-            <div className="indeterminate"></div>
-          </div> */}
-          <p>Please login to continue...</p>
-          <Login />
-        </>
+        <ClimbingBoxLoader
+          color={color}
+          loading={loading}
+          css={override}
+          size={20}
+        />
       )}
     </div>
   );

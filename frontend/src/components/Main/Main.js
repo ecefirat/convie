@@ -13,7 +13,7 @@ import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
   display: block;
-  margin: 25vh auto 5vh;
+  margin: 35vh auto 5vh;
   border-color: red;
 `;
 
@@ -219,7 +219,7 @@ function Main(props) {
                   removefromCart={removefromCart}
                 />
                 <button
-                  style={{ display: "block" }}
+                  style={{ display: "block", marginBottom: 70 }}
                   className="order-btn btn-small waves-effect waves-light red"
                   onClick={() => emptyCart()}>
                   Empty Cart

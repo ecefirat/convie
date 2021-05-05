@@ -1,8 +1,24 @@
 import React, { useEffect, useState } from "react";
-import Login from "../Login/Login";
+import { useHistory } from "react-router-dom";
 import HistoryDetails from "../HistoryDetails/HistoryDetails";
 
+import { css } from "@emotion/core";
+// import { jsx } from "@emotion/react";
+import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
+
+// Can be a string as well. Need to ensure each key-value pair ends with ;
+const override = css`
+  display: block;
+  margin: 35vh auto 5vh;
+  border-color: red;
+`;
+
 function History() {
+  let [loading, setLoading] = useState(true);
+  let [color, setColor] = useState("#ffb300");
+
+  let historyPush = useHistory();
+
   const [customer_name, setCustomerName] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [history, setHistory] = useState([]);
@@ -107,12 +123,12 @@ function History() {
           })}
         </div>
       ) : (
-        <>
-          {/* <div className="progress">
-            <div className="indeterminate"></div>
-          </div> */}
-          <p>Please login to continue...</p>
-        </>
+        <ClimbingBoxLoader
+          color={color}
+          loading={loading}
+          css={override}
+          size={20}
+        />
       )}
     </div>
   );
