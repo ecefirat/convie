@@ -22,6 +22,9 @@ function Register(props) {
         if (res.status === 404) {
           history.push("/login");
         }
+        if (res.status === 409) {
+          document.getElementById("existsError").style.display = "block";
+        }
         if (res.status === 200) {
           history.push("/");
         }
@@ -115,6 +118,9 @@ function Register(props) {
               })}
             />
             {errors.email && <span>Please enter a valid email address.</span>}
+            <span id="existsError" style={{ display: "none" }}>
+              User exists, please sign up with a different address.
+            </span>
             <label htmlFor=" icon_prefix email">Email</label>
           </div>
         </div>
