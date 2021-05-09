@@ -11,14 +11,23 @@
             body {
                 height: 100%;
                 margin: 0;
-                background: #25170ecb;
+                background: #ffb300;
+                /* background: #25170ecb; */
                 display: flex;
+                flex-direction: column;
                 align-items: center;
                 text-align: center;
                 justify-content: center;
-                color: #fff8e1;
+                color: #25170ecb;
             }
-        
+        button {
+            width: 30%;
+            height: 5%;
+            border-radius: 5px;
+            background-color: #25170ecb;
+            color: #ffb300;
+            font-size: 1em;
+        }
         </style>
     </head>
     <body>
@@ -27,6 +36,12 @@
         alt="logoGif"
         width="100px"
         margin= "100px 110px 50px"></img> -->
-        <h2>Please go online to get some ice-cream.</h2>
+        <h1>Please go online to get some ice-cream.</h1>
+        <button onclick=refresh()>Try again</button>
     </body>
+    <script>
+        function refresh() {
+            location.reload()
+        }
+    </script>
 </html>
