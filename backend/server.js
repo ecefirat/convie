@@ -139,12 +139,13 @@ app.get("/logout", (req, res) => {
 app.post(
   "/customerAddress",
   // body("customer_address").isAlphanumeric(),
+  body("customer_address").isLength({ max: 50 }),
 
   (req, res) => {
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   return res.status(400).json({ errors: errors.array() });
-    // }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     db.changeAddress(req, (cb) => {
       if (cb === 400) {
         res.status(400).send({ message: "no update" });
