@@ -11,7 +11,6 @@ require("dotenv").config({
   path: "/Users/ece/Downloads/convie/excludes/.env",
 });
 const app = express();
-const Port = 5000;
 const { body, validationResult } = require("express-validator");
 
 const winston = require("winston");
@@ -126,7 +125,7 @@ app.post(
         res.status(401).send({ messsage: "password incorrect" });
       } else {
         req.session.user = cb[0];
-        res.status(200).send({ message: "login success" });
+        res.status(200).send({ user: cb[0] });
       }
     });
   }
@@ -198,8 +197,17 @@ app.get("/products", (req, res) => {
     if (cb === 405) {
       res.status(405).send({ message: "failed" });
     } else {
-      // console.log(cb);
       res.status(200).send({ prod: cb });
+    }
+  });
+});
+
+app.get("/userInfo", (req, res) => {
+  db.getUserInfo((cb) => {
+    if (cb === 400) {
+      res.status(400).send({ message: "can't get user info" });
+    } else {
+      res.status(200).send({ users: cb });
     }
   });
 });
@@ -251,6 +259,4 @@ app.get("/sessionInfo", (req, res) => {
   }
 });
 
-app.listen(Port, () => {
-  console.log(`it's listening on port ${Port}`);
-});
+module.exports = app;

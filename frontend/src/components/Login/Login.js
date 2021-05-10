@@ -42,14 +42,19 @@ function Login(props) {
           document.getElementById("loginError").style.display = "block";
         }
         if (res.status === 200) {
-          history.push("/");
-          history.go();
+          console.log(res.status);
+          res.json().then((data) => {
+            console.log(data.user.role);
+            console.log("above");
+            if (data.user.role === "admin") {
+              document.getElementById("adminIcon").style.display = "block";
+              history.push("/");
+            } else {
+              history.push("/");
+              history.go();
+            }
+          });
         }
-        console.log(res.status);
-        res.json().then((data) => {
-          console.log(data);
-          console.log("above");
-        });
       });
   };
 

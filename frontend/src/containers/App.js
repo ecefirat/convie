@@ -4,6 +4,7 @@ import Main from "../components/Main/Main";
 import Profile from "../components/Profile/Profile";
 import Login from "../components/Login/Login";
 import Basket from "../components/Basket/Basket";
+import Admin from "../components/Admin/Admin";
 import "../../node_modules/materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min";
 import React from "react";
@@ -12,6 +13,7 @@ import "../containers/App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Orders } from "../components/Orders/Orders";
 import History from "../components/History/History";
+import AdminLogin from "../components/AdminLogin/AdminLogin";
 
 function App(props) {
   return (
@@ -32,6 +34,8 @@ function App(props) {
             <Route path="/orders" component={Orders}></Route>
             <Route path="/history" component={History}></Route>
             <Route path="/basket" component={Basket}></Route>
+            <Route path="/adminlogin" component={AdminLogin}></Route>
+            <Route path="/admin" component={Admin}></Route>
             <Route path="/" component={Main}></Route>
             {/* <Route component={NotFoundPage} /> */}
           </Switch>

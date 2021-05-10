@@ -59,7 +59,7 @@ const loginCustomer = (req, cb) => {
 
   const checkCustomer = "SELECT * FROM customers WHERE customer_email = ?";
   const loginCustomer =
-    "SELECT customer_id, customer_name, customer_surname, customer_email, customer_address, profile_picture FROM customers WHERE customer_email = ?";
+    "SELECT customer_id, customer_name, customer_surname, customer_email, customer_address, profile_picture, role FROM customers WHERE customer_email = ?";
 
   db.query(checkCustomer, [email], (err, result) => {
     // console.log(result);
@@ -182,6 +182,21 @@ const showProducts = (cb) => {
   });
 };
 
+const getUserInfo = (cb) => {
+  const GetUserInfo = "SELECT * FROM customers";
+
+  db.query(GetUserInfo, (err, res) => {
+    if (err) {
+      console.log(err);
+      cb(400);
+    } else if (res.length > 0) {
+      cb(res);
+    } else if ((res.length = 0)) {
+      console.log("no users found");
+    }
+  });
+};
+
 const sendOrder = (req, cb) => {
   const amount = req.body.totals;
   const customer_id = req.body.customer_id;
@@ -262,4 +277,5 @@ module.exports = {
   deleteAccount: deleteAccount,
   orderHistory: orderHistory,
   deleteOrder: deleteOrder,
+  getUserInfo: getUserInfo,
 };

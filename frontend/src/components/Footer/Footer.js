@@ -22,6 +22,11 @@ function Footer() {
             <i className="material-icons">history</i>
           </Link>
         </li>
+        <li id="adminIcon" style={{ display: "none" }}>
+          <Link to="/admin">
+            <i className="material-icons">admin_panel_settings</i>
+          </Link>
+        </li>
       </ul>
       {/* </div> */}
     </nav>
