@@ -2,18 +2,9 @@ const supertest = require("supertest");
 const server = require("./server");
 const request = supertest(server);
 
-// import { render } from "@testing-library/react";
-
-// it("Testing to see if Jest works", () => {
-//   expect(1).toBe(1);
-// });
-
-// Mock cookie
 let cookie;
 
-// Mock login
 beforeAll(async (done) => {
-  // jest.setTimeout(10000);
   const res = await request.post("/login").send({
     email: "admin@admin.com",
     password: "1234Qwer",
@@ -83,6 +74,7 @@ describe("testing address update", () => {
       .post("/customerAddress")
       .send({
         customer_address: "testing address",
+        customer_email: "admin@admin.com",
       })
       .set("Cookie", cookie);
     expect(response.status).toBe(200);
@@ -94,9 +86,10 @@ describe("testing address update", () => {
 describe("testing profile picture sending", () => {
   test("respond 200", async (done) => {
     const response = await request
-      .post("/picture")
+      .post("/uploads")
       .send({
-        profile_picture: "http://localhost:5000/uploads/cat.jpeg",
+        profile_picture: "testing",
+        customer_email: "q@q.com",
       })
       .set("Cookie", cookie);
     expect(response.status).toBe(200);
@@ -104,16 +97,39 @@ describe("testing profile picture sending", () => {
   });
 });
 
-describe("testing profile picture update", () => {
+describe("testing delete account", () => {
   test("respond 200", async (done) => {
     const response = await request
-      .post("/uploads")
+      .post("/account")
       .send({
-        profile_picture: "http://localhost:5000/uploads/cat.jpeg",
+        customer_email: "jamie@xx.com",
       })
       .set("Cookie", cookie);
-    // expect(response.status).toBe(200);
-    expect(response.body.message).toBe("image changed");
+    expect(response.status).toBe(200);
+    done();
+  });
+});
+
+describe("get user information", () => {
+  test("respond 200", async (done) => {
+    const response = await request.get("/userInfo");
+    expect(response.status).toBe(200);
+    done();
+  });
+});
+
+//getting a weird error but working fine
+describe("testing sending order", () => {
+  test("respond 200", async (done) => {
+    const response = await request
+      .post("/order")
+      .send({
+        totals: 22.2,
+        customer_id: 47,
+        customer_address: "testing address",
+      })
+      .set("Cookie", cookie);
+    expect(response.status).toBe(200);
     done();
   });
 });

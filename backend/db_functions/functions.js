@@ -132,7 +132,7 @@ const changeImage = (req, res, cb) => {
   });
 };
 
-const deleteAccount = (req, res, cb) => {
+const deleteAccount = (req, cb) => {
   const customer_email = req.body.customer_email;
 
   const DeleteAccount = "DELETE FROM customers WHERE customer_email = ?;";
@@ -143,28 +143,10 @@ const deleteAccount = (req, res, cb) => {
       console.log("account can't be deleted");
     } else if (res) {
       console.log("account deleted");
+      cb(200);
     }
   });
 };
-// const uploadImage = (req, res, cb) => {
-//   console.log(req.file);
-//   console.log("db upload");
-//   const profile_picture = req.body.picture.name;
-//   console.log(profile_picture);
-
-//   const UploadImage =
-//     "UPDATE customers SET profile_picture = ? WHERE customer_name = 'sugar'";
-
-//   db.query(UploadImage, [profile_picture], (error, result) => {
-//     if (error) {
-//       cb(400);
-//       console.log(error);
-//       console.log("image upload failed");
-//     } else if (result) {
-//       console.log("image upload fine");
-//     }
-//   });
-// };
 
 const showProducts = (cb) => {
   const ShowProducts = "SELECT * FROM products";

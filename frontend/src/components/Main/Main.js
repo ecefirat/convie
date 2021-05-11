@@ -196,16 +196,14 @@ function Main(props) {
           {loaded ? (
             <>
               <div style={{ display: "inline-block" }}>
-                {products.map((product) => {
-                  return (
-                    <Product
-                      key={product.pID}
-                      product={product}
-                      addtoCart={addtoCart}
-                      removefromCart={removefromCart}
-                    />
-                  );
-                })}
+                {products.map((product) => (
+                  <Product
+                    key={product.pID}
+                    product={product}
+                    addtoCart={addtoCart}
+                    removefromCart={removefromCart}
+                  />
+                ))}
               </div>
               <div>
                 <button

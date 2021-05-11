@@ -214,8 +214,6 @@ app.get("/userInfo", (req, res) => {
 });
 
 app.post("/order", (req, res) => {
-  console.log(req);
-  console.log("order req");
   db.sendOrder(req, (cb) => {
     if (cb === 400) {
       // res.status(400).send({ message: "failed" });

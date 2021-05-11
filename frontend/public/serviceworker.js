@@ -22,7 +22,7 @@ self.addEventListener("fetch", (event) => {
       console.log("fetching cache");
       return fetch(event.request).catch(
         () => caches.match("../components/Main/Main.js")
-        // caches.match("offline.html")
+        // () => caches.match("offline.html")
       );
     })
   );

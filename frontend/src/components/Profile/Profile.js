@@ -134,7 +134,7 @@ function Profile() {
       } else if (res.status === 200) {
         res.json().then((data) => {
           console.log(data);
-          console.log("image deleted");
+          console.log("account deleted");
         });
       }
     });
@@ -242,9 +242,9 @@ function Profile() {
               </button>
             </>
           ) : null}
-          <h5>Update Payment Details</h5>
+          {/* <h5>Update Payment Details</h5> */}
           <button
-            className="btn waves-effect waves-light grey disabled"
+            className="btn waves-effect waves-light grey"
             style={{ marginBottom: 70, marginRight: 10 }}
             onClick={handleSubmit(deleteAccount)}>
             Delete Account
