@@ -72,7 +72,7 @@ const rateLimit = require("express-rate-limit");
 
 // const secondLimiter = rateLimit({
 //   windowMs: 1000, // 1 second
-//   max: 1, // 1 request
+//   max: 10, // 1 request
 // });
 
 // app.use(dayLimiter);
@@ -126,6 +126,9 @@ app.post(
       } else {
         req.session.user = cb[0];
         res.status(200).send({ user: cb[0] });
+        logger.info("hey1");
+        logger.info(req.session.user.customer_email);
+        logger.info("hey2");
       }
     });
   }
@@ -245,6 +248,29 @@ app.post("/orders", (req, res) => {
   });
 });
 
+app.post(
+  "/pName",
+  // body("customer_address").isAlphanumeric(),
+  // body("customer_address").isLength({ max: 50 }),
+
+  (req, res) => {
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   return res.status(400).json({ errors: errors.array() });
+    // }
+    db.changePName(req, (cb) => {
+      if (cb === 400) {
+        res.status(400).send({ message: "no change in pname" });
+      } else {
+        console.log(cb);
+        console.log("pname updates");
+        // req.session.user.customer_address = cb;
+        res.status(200).send({ message: cb });
+      }
+    });
+  }
+);
+
 app.get("/sessionInfo", (req, res) => {
   if (req.session.user) {
     res.status(200).send({ user: req.session.user });
@@ -253,6 +279,8 @@ app.get("/sessionInfo", (req, res) => {
     logger.info(req.sessionID);
     logger.warn(req.headers);
     logger.warn(req.ip);
+    logger.info("heyyyyyyyyyyy");
+    logger.info(req);
   } else {
     res.status(400).send({ message: "not logged in" });
   }

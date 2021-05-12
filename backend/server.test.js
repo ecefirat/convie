@@ -52,6 +52,7 @@ describe("can't register - email exists", () => {
 describe("user login", () => {
   test("respond 200", async (done) => {
     const response = await request.post("/login").send({
+      customer_email: "admin@admin.com",
       email: "admin@admin.com",
       password: "1234Qwer",
     });

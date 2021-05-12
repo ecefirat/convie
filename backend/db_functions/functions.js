@@ -249,6 +249,23 @@ const deleteOrder = (req, cb) => {
   });
 };
 
+const changePName = (req, cb) => {
+  const pName = req.body.pName;
+
+  const ChangePName = "UPDATE products SET pName = ? WHERE pName = ?";
+  db.query(ChangePName, [pName, pName], (err, res) => {
+    if (err) {
+      cb(400);
+      console.log(err);
+      console.log("pname failed");
+    }
+    if (res) {
+      cb(pName);
+      console.log("pname update good");
+    }
+  });
+};
+
 module.exports = {
   registerCustomer: registerCustomer,
   loginCustomer: loginCustomer,
@@ -260,4 +277,5 @@ module.exports = {
   orderHistory: orderHistory,
   deleteOrder: deleteOrder,
   getUserInfo: getUserInfo,
+  changePName: changePName,
 };

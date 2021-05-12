@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import AdminProducts from "../AdminProducts/AdminProducts";
 import Product from "../Products/Product/Product";
 import Users from "../Users/Users";
 
@@ -89,9 +90,9 @@ const Admin = (props) => {
         })}
       </div>
       <h2>Products</h2>
-      <div>
+      <div style={{ height: 300, overflow: "scroll", marginBottom: 80 }}>
         {products.map((product) => {
-          return <Product key={product.pID} product={product} />;
+          return <AdminProducts key={product.pID} product={product} />;
         })}
       </div>
     </>
