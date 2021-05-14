@@ -271,6 +271,38 @@ app.post(
   }
 );
 
+app.post("/uName", (req, res) => {
+  db.changeUName(req, (cb) => {
+    if (cb === 400) {
+      res.status(400).send({ message: "no change in uname" });
+    } else {
+      console.log(cb);
+      console.log("uname updates");
+      res.status(200).send({ message: cb });
+    }
+  });
+});
+
+app.post("/users", (req, res) => {
+  db.deleteUser(req, (cb) => {
+    if (cb === 400) {
+      res.status(400).send({ message: "user cannot be deleted" });
+    } else {
+      res.status(200).send({ user_id: cb });
+    }
+  });
+});
+
+app.post("/product", (req, res) => {
+  db.deleteProduct(req, (cb) => {
+    if (cb === 400) {
+      res.status(400).send({ message: "product cannot be deleted" });
+    } else {
+      res.status(200).send({ pID: cb });
+    }
+  });
+});
+
 app.get("/sessionInfo", (req, res) => {
   if (req.session.user) {
     res.status(200).send({ user: req.session.user });

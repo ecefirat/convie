@@ -84,12 +84,18 @@ const Admin = (props) => {
   return (
     <>
       <h2>Users</h2>
-      <div style={{ height: 300, overflow: "scroll" }}>
+      <div style={{ height: 350, overflow: "scroll" }}>
         {users.map((user) => {
           return <Users key={user.customer_id} user={user} />;
         })}
       </div>
       <h2>Products</h2>
+      <h5>Add New Product</h5>
+      <input type="text" name="pName" placeholder="Product Name" />
+      <input type="number" name="pPrice" placeholder="Product Price" />
+      <i className="material-icons" style={{ cursor: "pointer" }}>
+        add
+      </i>
       <div style={{ height: 300, overflow: "scroll", marginBottom: 80 }}>
         {products.map((product) => {
           return <AdminProducts key={product.pID} product={product} />;

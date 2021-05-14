@@ -250,10 +250,14 @@ const deleteOrder = (req, cb) => {
 };
 
 const changePName = (req, cb) => {
-  const pName = req.body.pName;
+  const pName = req.body.data;
+  const pID = req.body.pID;
+  console.log(req.body);
+  console.log(pID);
+  console.log(pName);
 
-  const ChangePName = "UPDATE products SET pName = ? WHERE pName = ?";
-  db.query(ChangePName, [pName, pName], (err, res) => {
+  const ChangePName = "UPDATE products SET pName = ? WHERE pID = ?";
+  db.query(ChangePName, [pName, pID], (err, res) => {
     if (err) {
       cb(400);
       console.log(err);
@@ -262,6 +266,61 @@ const changePName = (req, cb) => {
     if (res) {
       cb(pName);
       console.log("pname update good");
+    }
+  });
+};
+
+const changeUName = (req, cb) => {
+  const uName = req.body.data;
+  const customer_id = req.body.customer_id;
+  console.log(req.body);
+  console.log(uName);
+
+  const ChangeUName =
+    "UPDATE customers SET customer_name = ? WHERE customer_id = ?";
+  db.query(ChangeUName, [uName, customer_id], (err, res) => {
+    if (err) {
+      cb(400);
+      console.log(err);
+      console.log("uname failed");
+    }
+    if (res) {
+      cb(uName);
+      console.log("uname update good");
+    }
+  });
+};
+
+const deleteUser = (req, cb) => {
+  console.log(req.body);
+  const customer_id = req.body.user_id;
+
+  const DeleteUser = "DELETE FROM customers WHERE customer_id= ?";
+
+  db.query(DeleteUser, [customer_id], (err, res) => {
+    if (err) {
+      cb(400);
+      console.log(err);
+    } else {
+      cb(customer_id);
+      console.log("user deleted");
+    }
+  });
+};
+
+const deleteProduct = (req, cb) => {
+  console.log(req.body);
+  const pID = req.body.pID;
+
+  const DeleteProduct = "DELETE FROM products WHERE pID= ?";
+
+  db.query(DeleteProduct, [pID], (err, res) => {
+    if (err) {
+      cb(400);
+      console.log(err);
+    } else {
+      cb(pID);
+      console.log("product deleted");
     }
   });
 };
@@ -278,4 +337,7 @@ module.exports = {
   deleteOrder: deleteOrder,
   getUserInfo: getUserInfo,
   changePName: changePName,
+  changeUName: changeUName,
+  deleteUser: deleteUser,
+  deleteProduct: deleteProduct,
 };
