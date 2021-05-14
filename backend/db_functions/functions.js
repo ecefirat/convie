@@ -4,6 +4,7 @@ require("dotenv").config({
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const mysql = require("mysql");
+const { add } = require("winston");
 
 const db = mysql.createPool({
   host: process.env.host,
@@ -325,6 +326,24 @@ const deleteProduct = (req, cb) => {
   });
 };
 
+const addProduct = (req, cb) => {
+  console.log(req.body);
+  const pName = req.body.pName;
+  const pPrice = req.body.pPrice;
+
+  const AddProduct = "INSERT INTO products(pName, pPrice) VALUES (?, ?)";
+
+  db.query(AddProduct, [pName, pPrice], (err, res) => {
+    if (err) {
+      cb(400);
+      console.log(err);
+    } else {
+      cb(pName);
+      console.log("product added");
+    }
+  });
+};
+
 module.exports = {
   registerCustomer: registerCustomer,
   loginCustomer: loginCustomer,
@@ -340,4 +359,5 @@ module.exports = {
   changeUName: changeUName,
   deleteUser: deleteUser,
   deleteProduct: deleteProduct,
+  addProduct: addProduct,
 };

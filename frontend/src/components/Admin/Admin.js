@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import AdminProducts from "../AdminProducts/AdminProducts";
 import Product from "../Products/Product/Product";
 import Users from "../Users/Users";
@@ -7,6 +8,8 @@ import Users from "../Users/Users";
 const Admin = (props) => {
   let history = useHistory();
   const [loaded, setLoaded] = useState(false);
+
+  const { register, handleSubmit } = useForm();
 
   //   const [customer, setCustomer] = useState("");
   //   const [customer_id, setCustomerId] = useState("");
@@ -81,6 +84,27 @@ const Admin = (props) => {
     fetchAPI();
   }, []);
 
+  const addProduct = (data) => {
+    console.log(data);
+    fetch("http://localhost:5000/addProduct", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }).then((res) => {
+      if (res.status === 400) {
+        console.log("cant add product");
+      } else if (res.status === 200) {
+        res.json().then((data) => {
+          console.log(data);
+          console.log("added");
+        });
+      }
+    });
+  };
+
   return (
     <>
       <h2>Users</h2>
@@ -91,9 +115,22 @@ const Admin = (props) => {
       </div>
       <h2>Products</h2>
       <h5>Add New Product</h5>
-      <input type="text" name="pName" placeholder="Product Name" />
-      <input type="number" name="pPrice" placeholder="Product Price" />
-      <i className="material-icons" style={{ cursor: "pointer" }}>
+      <input
+        type="text"
+        name="pName"
+        placeholder="Product Name"
+        ref={register}
+      />
+      <input
+        type="number"
+        name="pPrice"
+        placeholder="Product Price"
+        ref={register}
+      />
+      <i
+        className="material-icons"
+        style={{ cursor: "pointer" }}
+        onClick={handleSubmit(addProduct)}>
         add
       </i>
       <div style={{ height: 300, overflow: "scroll", marginBottom: 80 }}>

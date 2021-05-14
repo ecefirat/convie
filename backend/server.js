@@ -303,6 +303,16 @@ app.post("/product", (req, res) => {
   });
 });
 
+app.post("/addProduct", (req, res) => {
+  db.addProduct(req, (cb) => {
+    if (cb === 400) {
+      res.status(400).send({ message: "product cannot be added" });
+    } else {
+      res.status(200).send({ pName: cb });
+    }
+  });
+});
+
 app.get("/sessionInfo", (req, res) => {
   if (req.session.user) {
     res.status(200).send({ user: req.session.user });
