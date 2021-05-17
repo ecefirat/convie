@@ -25,8 +25,6 @@ const logConfiguration = {
 
 const logger = winston.createLogger(logConfiguration);
 
-logger.info("hello");
-
 // const logger = (req, res, next) => {
 //   console.log(moment().format());
 //   next();
@@ -96,6 +94,13 @@ app.post(
         res.status(400).send({ message: "reg failed" });
       } else if (cb === 200) {
         res.status(200).send({ message: "reg success" });
+        logger.info(
+          `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+            req.session.user
+          }, Usertype: ${
+            req.session.user
+          }, Timestamp: ${new Date().toJSON()}, Action: Register`
+        );
       } else if (cb === 401) {
         res.status(401).send({ message: "reg heyhey" });
       } else if (cb === 409) {
@@ -126,15 +131,26 @@ app.post(
       } else {
         req.session.user = cb[0];
         res.status(200).send({ user: cb[0] });
-        logger.info("hey1");
-        logger.info(req.session.user.customer_email);
-        logger.info("hey2");
+        logger.info(
+          `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+            req.session.user.customer_name
+          }, Usertype: ${
+            req.session.user.role
+          }, Timestamp: ${new Date().toJSON()}, Action: Login`
+        );
       }
     });
   }
 );
 
 app.get("/logout", (req, res) => {
+  logger.info(
+    `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+      req.session.user.customer_name
+    }, Usertype: ${
+      req.session.user.role
+    }, Timestamp: ${new Date().toJSON()}, Action: Logout`
+  );
   req.session.destroy();
   res.sendStatus(200);
 });
@@ -155,6 +171,13 @@ app.post(
       } else {
         req.session.user.customer_address = cb;
         res.status(200).send({ message: cb });
+        logger.info(
+          `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+            req.session.user.customer_name
+          }, Usertype: ${
+            req.session.user.role
+          }, Timestamp: ${new Date().toJSON()}, Action: Address Update`
+        );
       }
     });
   }
@@ -169,6 +192,13 @@ app.post("/picture", async (req, res) => {
       const { picture } = req.files;
       picture.mv("./uploads/" + picture.name);
       res.send({ picture });
+      logger.info(
+        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+          req.session.user.customer_name
+        }, Usertype: ${
+          req.session.user.role
+        }, Timestamp: ${new Date().toJSON()}, Action: Image Upload`
+      );
     }
   } catch (err) {
     res.status(500).send(err);
@@ -182,6 +212,13 @@ app.post("/uploads", (req, res) => {
       res.status(404).send({ message: "image failed" });
     } else if (cb === 200) {
       res.status(200).send({ message: "image changed" });
+      logger.info(
+        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+          req.session.user.customer_name
+        }, Usertype: ${
+          req.session.user.role
+        }, Timestamp: ${new Date().toJSON()}, Action: Image Update`
+      );
     }
   });
 });
@@ -191,6 +228,13 @@ app.post("/account", (req, res) => {
     if (cb === 400) {
       res.status(400).send({ message: "deletion failed" });
     } else if (cb === 200) {
+      logger.info(
+        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+          req.session.user.customer_name
+        }, Usertype: ${
+          req.session.user.role
+        }, Timestamp: ${new Date().toJSON()}, Action: Delete Account`
+      );
       res.status(200).send({ message: "deletion succesful" });
     }
   });
@@ -223,6 +267,13 @@ app.post("/order", (req, res) => {
       console.log("hey");
     } else if (cb === 200) {
       res.status(200).send({ message: "succ" });
+      logger.info(
+        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+          req.session.user.customer_name
+        }, Usertype: ${
+          req.session.user.role
+        }, Timestamp: ${new Date().toJSON()}, Action: Order`
+      );
     }
   });
 });
@@ -244,6 +295,13 @@ app.post("/orders", (req, res) => {
       res.status(400).send({ message: "order cannot be deleted" });
     } else {
       res.status(200).send({ order_id: cb });
+      logger.info(
+        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+          req.session.user.customer_name
+        }, Usertype: ${
+          req.session.user.role
+        }, Timestamp: ${new Date().toJSON()}, Action: Order Delete`
+      );
     }
   });
 });
@@ -266,6 +324,13 @@ app.post(
         console.log("pname updates");
         // req.session.user.customer_address = cb;
         res.status(200).send({ message: cb });
+        logger.info(
+          `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+            req.session.user.customer_name
+          }, Usertype: ${
+            req.session.user.role
+          }, Timestamp: ${new Date().toJSON()}, Action: Product Name Update`
+        );
       }
     });
   }
@@ -279,6 +344,13 @@ app.post("/uName", (req, res) => {
       console.log(cb);
       console.log("uname updates");
       res.status(200).send({ message: cb });
+      logger.info(
+        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+          req.session.user.customer_name
+        }, Usertype: ${
+          req.session.user.role
+        }, Timestamp: ${new Date().toJSON()}, Action: User Name Update`
+      );
     }
   });
 });
@@ -289,6 +361,13 @@ app.post("/users", (req, res) => {
       res.status(400).send({ message: "user cannot be deleted" });
     } else {
       res.status(200).send({ user_id: cb });
+      logger.info(
+        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+          req.session.user.customer_name
+        }, Usertype: ${
+          req.session.user.role
+        }, Timestamp: ${new Date().toJSON()}, Action: Delete User`
+      );
     }
   });
 });
@@ -299,6 +378,13 @@ app.post("/product", (req, res) => {
       res.status(400).send({ message: "product cannot be deleted" });
     } else {
       res.status(200).send({ pID: cb });
+      logger.info(
+        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+          req.session.user.customer_name
+        }, Usertype: ${
+          req.session.user.role
+        }, Timestamp: ${new Date().toJSON()}, Action: Delete Product`
+      );
     }
   });
 });
@@ -309,6 +395,30 @@ app.post("/addProduct", (req, res) => {
       res.status(400).send({ message: "product cannot be added" });
     } else {
       res.status(200).send({ pName: cb });
+      logger.info(
+        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+          req.session.user.customer_name
+        }, Usertype: ${
+          req.session.user.role
+        }, Timestamp: ${new Date().toJSON()}, Action: Add Product`
+      );
+    }
+  });
+});
+
+app.post("/addAdmin", (req, res) => {
+  db.addAdmin(req, (cb) => {
+    if (cb === 400) {
+      res.status(400).send({ message: "admin cannot be added" });
+    } else {
+      res.status(200).send({ admin: cb });
+      logger.info(
+        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+          req.session.user.customer_name
+        }, Usertype: ${
+          req.session.user.role
+        }, Timestamp: ${new Date().toJSON()}, Action: Add Admin`
+      );
     }
   });
 });
@@ -316,13 +426,6 @@ app.post("/addProduct", (req, res) => {
 app.get("/sessionInfo", (req, res) => {
   if (req.session.user) {
     res.status(200).send({ user: req.session.user });
-    logger.info("sessions");
-    logger.info(req.session.user);
-    logger.info(req.sessionID);
-    logger.warn(req.headers);
-    logger.warn(req.ip);
-    logger.info("heyyyyyyyyyyy");
-    logger.info(req);
   } else {
     res.status(400).send({ message: "not logged in" });
   }

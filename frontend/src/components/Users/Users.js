@@ -107,6 +107,7 @@ function Users(props) {
             {/* <p>{user.customer_surname}</p> */}
             <p>{user.customer_address}</p>
             <p>{user.customer_email}</p>
+            <p>{user.role}</p>
           </div>
         </div>
       </div>

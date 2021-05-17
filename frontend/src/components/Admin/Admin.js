@@ -11,14 +11,6 @@ const Admin = (props) => {
 
   const { register, handleSubmit } = useForm();
 
-  //   const [customer, setCustomer] = useState("");
-  //   const [customer_id, setCustomerId] = useState("");
-  //   const [customer_name, setCustomerName] = useState("");
-  //   const [customer_surname, setCustomerSurname] = useState("");
-  //   const [customer_email, setCustomerEmail] = useState("");
-  //   const [customer_address, setCustomerAddress] = useState("");
-  //   const [role, setRole] = useState("");
-  //   const [loggedIn, setLoggedIn] = useState(false);
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
 
@@ -105,9 +97,61 @@ const Admin = (props) => {
     });
   };
 
+  const addAdmin = (data) => {
+    console.log(data);
+    fetch("http://localhost:5000/addAdmin", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }).then((res) => {
+      if (res.status === 400) {
+        console.log("cant add admin");
+      } else if (res.status === 200) {
+        res.json().then((data) => {
+          console.log(data);
+          console.log("added");
+        });
+      }
+    });
+  };
+
   return (
     <>
       <h2>Users</h2>
+      <h5>Add New Admin</h5>
+      <input
+        type="text"
+        name="customer_name"
+        placeholder="Name"
+        ref={register}
+      />
+      <input
+        type="text"
+        name="customer_surname"
+        placeholder="Surname"
+        ref={register}
+      />
+      <input
+        type="email"
+        name="customer_email"
+        placeholder="Email"
+        ref={register}
+      />
+      <input
+        type="password"
+        name="customer_password"
+        placeholder="Password"
+        ref={register}
+      />
+      <i
+        className="material-icons"
+        style={{ cursor: "pointer" }}
+        onClick={handleSubmit(addAdmin)}>
+        add
+      </i>
       <div style={{ height: 350, overflow: "scroll" }}>
         {users.map((user) => {
           return <Users key={user.customer_id} user={user} />;

@@ -344,6 +344,37 @@ const addProduct = (req, cb) => {
   });
 };
 
+const addAdmin = (req, cb) => {
+  console.log(req.body);
+  const customer_name = req.body.customer_name;
+  const customer_surname = req.body.customer_surname;
+  const customer_email = req.body.customer_email;
+  const customer_password = req.body.customer_password;
+
+  const AddAdmin =
+    "INSERT INTO customers(customer_name, customer_surname, customer_email, customer_password, role) VALUES (?, ?, ?, ?, 'admin')";
+
+  bcrypt.hash(customer_password, saltRounds, (err, hash) => {
+    if (err) {
+      console.log(err);
+      cb(401);
+    }
+    db.query(
+      AddAdmin,
+      [customer_name, customer_surname, customer_email, hash],
+      (err, res) => {
+        if (err) {
+          cb(400);
+          console.log(err);
+        } else {
+          cb(res);
+          console.log("admin added");
+        }
+      }
+    );
+  });
+};
+
 module.exports = {
   registerCustomer: registerCustomer,
   loginCustomer: loginCustomer,
@@ -360,4 +391,5 @@ module.exports = {
   deleteUser: deleteUser,
   deleteProduct: deleteProduct,
   addProduct: addProduct,
+  addAdmin: addAdmin,
 };
