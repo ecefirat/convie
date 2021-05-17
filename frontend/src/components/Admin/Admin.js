@@ -7,12 +7,44 @@ import Users from "../Users/Users";
 
 const Admin = (props) => {
   let history = useHistory();
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
   const [loaded, setLoaded] = useState(false);
 
   const { register, handleSubmit } = useForm();
 
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function fetchSes() {
+      const req = await fetch("http://localhost:5000/sessionInfo", {
+        method: "GET",
+        body: JSON.stringify(),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            res.json().then((data) => {
+              console.log(data);
+              setLoggedIn(true);
+            });
+          } else if (res.status === 400) {
+            res.json().then((data) => {
+              console.log(data);
+              history.push("/login");
+            });
+          }
+        })
+        .catch((error) => console.log(error));
+      return req;
+    }
+    fetchSes();
+  }, []);
 
   useEffect(() => {
     async function fetchAPI() {
@@ -43,7 +75,7 @@ const Admin = (props) => {
       return request;
     }
     fetchAPI();
-  }, []);
+  }, [users]);
 
   useEffect(() => {
     async function fetchAPI() {
@@ -74,7 +106,7 @@ const Admin = (props) => {
       return request;
     }
     fetchAPI();
-  }, []);
+  }, [products]);
 
   const addProduct = (data) => {
     console.log(data);
@@ -126,25 +158,39 @@ const Admin = (props) => {
         type="text"
         name="customer_name"
         placeholder="Name"
-        ref={register}
+        ref={register({
+          pattern: /^[A-Z]{1}[A-Z a-z]{2,}/,
+          maxlength: 25,
+          minLength: 2,
+        })}
       />
       <input
         type="text"
         name="customer_surname"
         placeholder="Surname"
-        ref={register}
+        ref={register({
+          pattern: /^[A-Z]{1}[A-Z a-z]{2,}/,
+          maxlength: 25,
+          minLength: 2,
+        })}
       />
       <input
         type="email"
         name="customer_email"
         placeholder="Email"
-        ref={register}
+        ref={register({
+          pattern: /[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$/,
+          minLength: 10,
+          maxLength: 50,
+        })}
       />
       <input
         type="password"
         name="customer_password"
         placeholder="Password"
-        ref={register}
+        ref={register({
+          pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+        })}
       />
       <i
         className="material-icons"
@@ -163,13 +209,19 @@ const Admin = (props) => {
         type="text"
         name="pName"
         placeholder="Product Name"
-        ref={register}
+        ref={register({
+          pattern: /^[A-Z]{1}[A-Z a-z]{2,}/,
+          maxlength: 25,
+          minLength: 2,
+        })}
       />
       <input
         type="number"
         name="pPrice"
         placeholder="Product Price"
-        ref={register}
+        ref={register({
+          maxlength: 5,
+        })}
       />
       <i
         className="material-icons"

@@ -7,6 +7,7 @@ function Users(props) {
   const [uName, setPName] = useState(user.customer_name);
   const [msg, setMessage] = useState(false);
   const [uRole, setURole] = useState(user.role);
+  const [deleteMsg, setDeleteMsg] = useState(false);
 
   const { register, handleSubmit } = useForm();
 
@@ -53,6 +54,7 @@ function Users(props) {
         res.json().then((data) => {
           console.log("deleted");
           console.log(data.user_id);
+          setDeleteMsg(true);
         });
       }
     });
@@ -108,6 +110,9 @@ function Users(props) {
             <p>{user.customer_address}</p>
             <p>{user.customer_email}</p>
             <p>{user.role}</p>
+            <p style={deleteMsg ? { display: "block" } : { display: "none" }}>
+              User {uName} is deleted.
+            </p>
           </div>
         </div>
       </div>

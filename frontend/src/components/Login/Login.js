@@ -48,7 +48,7 @@ function Login(props) {
             console.log("above");
             if (data.user.role === "admin") {
               document.getElementById("adminIcon").style.display = "block";
-              history.push("/");
+              history.push("/admin");
             } else {
               history.push("/");
               history.go();

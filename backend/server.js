@@ -102,7 +102,7 @@ app.post(
           }, Timestamp: ${new Date().toJSON()}, Action: Register`
         );
       } else if (cb === 401) {
-        res.status(401).send({ message: "reg heyhey" });
+        res.status(401).send({ message: "hashing failed" });
       } else if (cb === 409) {
         res.status(409).send({ message: "user exists" });
       } else {
@@ -167,7 +167,7 @@ app.post(
     }
     db.changeAddress(req, (cb) => {
       if (cb === 400) {
-        res.status(400).send({ message: "no update" });
+        res.status(400).send({ message: "address update failed" });
       } else {
         req.session.user.customer_address = cb;
         res.status(200).send({ message: cb });
@@ -209,7 +209,7 @@ app.post("/uploads", (req, res) => {
   // implement validation
   db.changeImage(req, (cb) => {
     if (cb === 404) {
-      res.status(404).send({ message: "image failed" });
+      res.status(404).send({ message: "image update failed" });
     } else if (cb === 200) {
       res.status(200).send({ message: "image changed" });
       logger.info(
@@ -243,7 +243,9 @@ app.post("/account", (req, res) => {
 app.get("/products", (req, res) => {
   db.showProducts((cb) => {
     if (cb === 405) {
-      res.status(405).send({ message: "failed" });
+      res.status(405).send({ message: "can't load products" });
+    } else if (cb === 404) {
+      res.status(404).send({ message: "no product is found" });
     } else {
       res.status(200).send({ prod: cb });
     }
@@ -254,6 +256,8 @@ app.get("/userInfo", (req, res) => {
   db.getUserInfo((cb) => {
     if (cb === 400) {
       res.status(400).send({ message: "can't get user info" });
+    } else if (cb === 404) {
+      res.status(404).send({ message: "user does not exist" });
     } else {
       res.status(200).send({ users: cb });
     }
@@ -263,10 +267,9 @@ app.get("/userInfo", (req, res) => {
 app.post("/order", (req, res) => {
   db.sendOrder(req, (cb) => {
     if (cb === 400) {
-      // res.status(400).send({ message: "failed" });
-      console.log("hey");
+      res.status(400).send({ message: "order failed" });
     } else if (cb === 200) {
-      res.status(200).send({ message: "succ" });
+      res.status(200).send({ message: "order is sent" });
       logger.info(
         `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
           req.session.user.customer_name
@@ -283,6 +286,8 @@ app.post("/history", (req, res) => {
   db.orderHistory(req, (cb) => {
     if (cb === 405) {
       res.status(405).send({ message: "failed" });
+    } else if (cb === 404) {
+      res.status(404).send({ message: "no order found" });
     } else {
       res.status(200).send({ history: cb });
     }
@@ -360,7 +365,6 @@ app.post("/users", (req, res) => {
     if (cb === 400) {
       res.status(400).send({ message: "user cannot be deleted" });
     } else {
-      res.status(200).send({ user_id: cb });
       logger.info(
         `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
           req.session.user.customer_name
@@ -368,6 +372,7 @@ app.post("/users", (req, res) => {
           req.session.user.role
         }, Timestamp: ${new Date().toJSON()}, Action: Delete User`
       );
+      res.status(200).send({ user_id: cb });
     }
   });
 });
@@ -408,7 +413,9 @@ app.post("/addProduct", (req, res) => {
 
 app.post("/addAdmin", (req, res) => {
   db.addAdmin(req, (cb) => {
-    if (cb === 400) {
+    if (cb === 401) {
+      res.status(401).send({ message: "hashing error" });
+    } else if (cb === 400) {
       res.status(400).send({ message: "admin cannot be added" });
     } else {
       res.status(200).send({ admin: cb });

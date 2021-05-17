@@ -73,8 +73,7 @@ const loginCustomer = (req, cb) => {
     }
     if (result.length > 0) {
       console.log(result[0]);
-      // console.log(result[0].customer_password);
-      console.log("result from the db for login");
+      console.log("db login");
       bcrypt.compare(password, result[0].customer_password, (err, response) => {
         if (err) {
           console.log(err);
@@ -109,7 +108,7 @@ const changeAddress = (req, cb) => {
     }
     if (res) {
       cb(customer_address);
-      console.log("update good");
+      console.log("address updated");
     }
   });
 };
@@ -123,7 +122,7 @@ const changeImage = (req, res, cb) => {
     "UPDATE customers SET profile_picture = ? WHERE customer_email = ?";
   db.query(ChangeImage, [profile_picture, customer_email], (err, res) => {
     if (err) {
-      // cb(400);
+      cb(404);
       console.log(err);
       console.log("image update failed");
     }
@@ -154,10 +153,9 @@ const showProducts = (cb) => {
 
   db.query(ShowProducts, (err, results) => {
     if (err) {
-      console.log(err);
       cb(405);
+      console.log(err);
     } else if (results.length > 0) {
-      // console.log(results);
       cb(results);
     } else if ((results.length = 0)) {
       cb(404);
@@ -170,12 +168,12 @@ const getUserInfo = (cb) => {
 
   db.query(GetUserInfo, (err, res) => {
     if (err) {
-      console.log(err);
       cb(400);
+      console.log(err);
     } else if (res.length > 0) {
       cb(res);
     } else if ((res.length = 0)) {
-      console.log("no users found");
+      cb(404);
     }
   });
 };
@@ -192,13 +190,11 @@ const sendOrder = (req, cb) => {
 
   db.query(SendOrder, [amount, customer_id, customer_address], (err, res) => {
     if (err) {
-      console.log("err sendorder");
-      console.log(err);
       cb(400);
+      console.log(err);
     }
     if (res) {
       cb(200);
-      console.log("success");
       db.query(SendOrderDetails, [res.insertId], (err, res) => {
         if (err) {
           console.log("order details error");
@@ -208,7 +204,7 @@ const sendOrder = (req, cb) => {
         }
       });
     } else {
-      console.log("error after res");
+      console.log("error at order details");
     }
   });
 };
@@ -221,15 +217,14 @@ const orderHistory = (req, cb) => {
 
   db.query(OrderHistory, [customer_id], (err, results) => {
     if (err) {
+      cb(405);
       console.log(err);
-      // cb(405);
     } else if (results.length > 0) {
       console.log(results);
       console.log("above");
       cb(results);
     } else if ((results.length = 0)) {
-      // cb(404);
-      console.log("hey");
+      cb(404);
     }
   });
 };
