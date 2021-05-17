@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export const Orders = (props) => {
   const { total } = props;
+  let history = useHistory();
 
   const [customer, setCustomer] = useState("");
 
@@ -23,6 +24,7 @@ export const Orders = (props) => {
       } else if (res.status === 400) {
         res.json().then((data) => {
           console.log(data);
+          history.push("/");
         });
       }
     });

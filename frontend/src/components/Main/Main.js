@@ -234,21 +234,6 @@ function Main(props) {
           )}
         </div>
       ) : (
-        /* <>
-          <div className="progress">
-            <div className="indeterminate"></div>
-          </div>
-          <p>Please login to continue...</p>
-          <Login />
-        </> */
-
-        /* <div className="sweet-loading">
-          <button onClick={() => setLoading(!loading)}>Toggle Loader</button>
-          <input
-            value={color}
-            onChange={(input) => setColor(input.target.value)}
-            placeholder="Color of the loader"
-          /> */
         <>
           <ClimbingBoxLoader
             color={color}
@@ -257,7 +242,6 @@ function Main(props) {
             size={20}
           />
         </>
-        /* </div> */
       )}
     </div>
   );

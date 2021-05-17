@@ -45,3 +45,8 @@
 {"message":"IP: ::1, Session: sQYSuFoUvE-u7YeD4ZC6GhiJ9C7ci82n, Username: Admin, Usertype: admin, Timestamp: 2021-05-17T11:23:57.035Z, Action: Login","level":"info"}
 {"message":"IP: ::1, Session: sQYSuFoUvE-u7YeD4ZC6GhiJ9C7ci82n, Username: Admin, Usertype: admin, Timestamp: 2021-05-17T11:24:05.002Z, Action: Order","level":"info"}
 {"message":"IP: ::1, Session: sQYSuFoUvE-u7YeD4ZC6GhiJ9C7ci82n, Username: Admin, Usertype: admin, Timestamp: 2021-05-17T11:24:11.435Z, Action: Logout","level":"info"}
+{"message":"IP: ::1, Session: Uxr3ZAUaZeaFdrzECRzXu4Qyp25AtwtW, Username: Admin, Usertype: admin, Timestamp: 2021-05-17T11:26:44.351Z, Action: Login","level":"info"}
+{"message":"IP: ::1, Session: Uxr3ZAUaZeaFdrzECRzXu4Qyp25AtwtW, Username: Admin, Usertype: admin, Timestamp: 2021-05-17T11:27:34.302Z, Action: Logout","level":"info"}
+{"message":"IP: ::1, Session: 6giYocVuu1-qnSOHnqQfoK9gfeHTbmzt, Username: James, Usertype: customer, Timestamp: 2021-05-17T11:27:49.088Z, Action: Login","level":"info"}
+{"message":"IP: ::1, Session: 6giYocVuu1-qnSOHnqQfoK9gfeHTbmzt, Username: James, Usertype: customer, Timestamp: 2021-05-17T11:34:18.121Z, Action: Order","level":"info"}
+{"message":"IP: ::1, Session: 6giYocVuu1-qnSOHnqQfoK9gfeHTbmzt, Username: James, Usertype: customer, Timestamp: 2021-05-17T11:34:22.686Z, Action: Logout","level":"info"}
