@@ -9,13 +9,14 @@ const Admin = (props) => {
   let history = useHistory();
 
   const [loggedIn, setLoggedIn] = useState(false);
-
   const [loaded, setLoaded] = useState(false);
+  const [addAdm, setAddAdm] = useState(false);
 
   const { register, handleSubmit } = useForm();
 
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
+  const [adminName, setAdminName] = useState("");
 
   useEffect(() => {
     async function fetchSes() {
@@ -75,38 +76,35 @@ const Admin = (props) => {
       return request;
     }
     fetchAPI();
-  }, [users]);
+  }, []);
 
   useEffect(() => {
-    async function fetchAPI() {
-      const request = await fetch("http://localhost:5000/products", {
-        method: "GET",
-        body: JSON.stringify(),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
+    const request = fetch("http://localhost:5000/products", {
+      method: "GET",
+      body: JSON.stringify(),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.status === 405) {
+          res.json().then((data) => {
+            console.log(data);
+            console.log("this is products data /error 405");
+          });
+        } else if (res.status === 200) {
+          res.json().then((data) => {
+            setProducts(data.prod);
+            setLoaded(true);
+            console.log(data);
+            console.log("this is products data");
+          });
+        }
       })
-        .then((res) => {
-          if (res.status === 405) {
-            res.json().then((data) => {
-              console.log(data);
-              console.log("this is products data /error 405");
-            });
-          } else if (res.status === 200) {
-            res.json().then((data) => {
-              setProducts(data.prod);
-              setLoaded(true);
-              console.log(data);
-              console.log("this is products data");
-            });
-          }
-        })
-        .catch((error) => console.log(error));
-      return request;
-    }
-    fetchAPI();
-  }, [products]);
+      .catch((error) => console.log(error));
+    return request;
+  }, []);
 
   const addProduct = (data) => {
     console.log(data);
@@ -145,6 +143,8 @@ const Admin = (props) => {
         res.json().then((data) => {
           console.log(data);
           console.log("added");
+          setAddAdm(true);
+          setAdminName(data.admin);
         });
       }
     });
@@ -198,6 +198,9 @@ const Admin = (props) => {
         onClick={handleSubmit(addAdmin)}>
         add
       </i>
+      <p style={addAdm ? { display: "block" } : { display: "none" }}>
+        User {adminName} is added as admin.
+      </p>
       <div style={{ height: 350, overflow: "scroll" }}>
         {users.map((user) => {
           return <Users key={user.customer_id} user={user} />;

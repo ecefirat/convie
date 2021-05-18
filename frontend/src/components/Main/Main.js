@@ -39,35 +39,31 @@ function Main(props) {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    async function fetchSes() {
-      const req = await fetch("http://localhost:5000/sessionInfo", {
-        method: "GET",
-        body: JSON.stringify(),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      })
-        .then((res) => {
-          if (res.status === 200) {
-            res.json().then((data) => {
-              console.log(data);
-              setCustomer(data.user.customer_name);
-              setCustomerId(data.user.customer_id);
-              setCustomerAddress(data.user.customer_address);
-              setLoggedIn(true);
-            });
-          } else if (res.status === 400) {
-            res.json().then((data) => {
-              console.log(data);
-              history.push("/login");
-            });
-          }
-        })
-        .catch((error) => console.log(error));
-      return req;
-    }
-    fetchSes();
+    const req = fetch("http://localhost:5000/sessionInfo", {
+      method: "GET",
+      body: JSON.stringify(),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }).then((res) => {
+      if (res.status === 200) {
+        res.json().then((data) => {
+          console.log(data);
+          setCustomer(data.user.customer_name);
+          setCustomerId(data.user.customer_id);
+          setCustomerAddress(data.user.customer_address);
+          setLoggedIn(true);
+        });
+      } else if (res.status === 400) {
+        res.json().then((data) => {
+          console.log(data);
+          history.push("/login");
+        });
+      }
+    });
+    // .catch((error) => console.log(error));
+    return req;
   }, []);
 
   useEffect(() => {

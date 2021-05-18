@@ -1,6 +1,5 @@
 const CACHE_NAME = "version-1";
-const urlsToCache = ["index.html", "offline.html", "images/convieLogoGif.gif"];
-// const urlsToCache = ["index.html", "../components/Main/Main.js"];
+const urlsToCache = ["index.html", "offline.html"];
 
 const self = this;
 
@@ -19,11 +18,9 @@ self.addEventListener("install", (event) => {
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then(() => {
+      console.log(event.request);
       console.log("fetching cache");
-      return fetch(event.request).catch(
-        // () => caches.match("../components/Main/Main.js")
-        () => caches.match("offline.html")
-      );
+      return fetch(event.request).catch(() => caches.match("offline.html"));
     })
   );
 });

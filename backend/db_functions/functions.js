@@ -362,7 +362,7 @@ const addAdmin = (req, cb) => {
           cb(400);
           console.log(err);
         } else {
-          cb(res);
+          cb(customer_name);
           console.log("admin added");
         }
       }

@@ -15,6 +15,9 @@ const override = css`
 `;
 
 function Login(props) {
+  const [loggedIn, setLoggedIn] = useState(false);
+  localStorage.setItem("loggedIn", false);
+
   let [loading, setLoading] = useState(true);
   let [color, setColor] = useState("#ffb300");
 
@@ -46,6 +49,10 @@ function Login(props) {
           res.json().then((data) => {
             console.log(data.user.role);
             console.log("above");
+            console.log(loggedIn);
+            setLoggedIn(true);
+            console.log(loggedIn);
+            localStorage.setItem("loggedIn", true);
             if (data.user.role === "admin") {
               document.getElementById("adminIcon").style.display = "block";
               history.push("/admin");

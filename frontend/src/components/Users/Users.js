@@ -65,62 +65,64 @@ function Users(props) {
   };
 
   return (
-    <div className="col s12" key={user.customer_id}>
-      <div className="card horizontal">
-        <div className="card-stacked" style={{ flexDirection: "row" }}>
-          <img
-            src={user.profile_picture}
-            alt={user.customer_name}
-            style={{ width: 100, height: 100, margin: 10 }}
-          />
-          <button
-            style={{ right: 5, bottom: -10 }}
-            className="btn-floating btn-small halfway-fab waves-effect waves-light red"
-            onClick={handleSubmit(deleteUser)}>
-            <i className="material-icons">delete</i>
-          </button>
-          <button
-            className="btn-floating btn-small halfway-fab waves-effect waves-light green"
-            style={{ right: 40, bottom: -10 }}
-            onClick={promoteUser}>
-            <i className="material-icons">account_circle</i>
-          </button>
-          <div className="card-content">
-            {/* <label>First Name</label> */}
-            <input
-              type="text"
-              name="uName"
-              value={uName}
-              ref={register({
-                pattern: /^[A-Z]{1}[A-Z a-z]{2,}/,
-                maxlength: 25,
-                minLength: 2,
-              })}
-              onChange={(e) => setPName(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.which === 13) {
-                  setPName(e.target.value);
-                  handleSubmit(changeUName(uName));
-                  console.log(msg);
-                }
-              }}
-              onBlur={hideMsg}
+    <>
+      <p style={deleteMsg ? { display: "block" } : { display: "none" }}>
+        User {uName} is deleted.
+      </p>
+      <div className="col s12" key={user.customer_id}>
+        <div className="card horizontal">
+          <div className="card-stacked" style={{ flexDirection: "row" }}>
+            <img
+              src={user.profile_picture}
+              alt={user.customer_name}
+              style={{ width: 100, height: 100, margin: 10 }}
             />
-            <p style={msg ? { display: "block" } : { display: "none" }}>
-              User name is changed as {uName}.
-            </p>
-            {/* <p>{user.customer_name}</p> */}
-            {/* <p>{user.customer_surname}</p> */}
-            <p>{user.customer_address}</p>
-            <p>{user.customer_email}</p>
-            <p>{user.role}</p>
-            <p style={deleteMsg ? { display: "block" } : { display: "none" }}>
-              User {uName} is deleted.
-            </p>
+            <button
+              style={{ right: 5, bottom: -10 }}
+              className="btn-floating btn-small halfway-fab waves-effect waves-light red"
+              onClick={handleSubmit(deleteUser)}>
+              <i className="material-icons">delete</i>
+            </button>
+            <button
+              className="btn-floating btn-small halfway-fab waves-effect waves-light green"
+              style={{ right: 40, bottom: -10 }}
+              onClick={promoteUser}>
+              <i className="material-icons">account_circle</i>
+            </button>
+            <div className="card-content">
+              {/* <label>First Name</label> */}
+              <input
+                type="text"
+                name="uName"
+                value={uName}
+                ref={register({
+                  pattern: /^[A-Z]{1}[A-Z a-z]{2,}/,
+                  maxlength: 25,
+                  minLength: 2,
+                })}
+                onChange={(e) => setPName(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.which === 13) {
+                    setPName(e.target.value);
+                    handleSubmit(changeUName(uName));
+                    console.log(msg);
+                  }
+                }}
+                onBlur={hideMsg}
+              />
+              <p style={msg ? { display: "block" } : { display: "none" }}>
+                User name is changed as {uName}.
+              </p>
+              {/* <p>{user.customer_name}</p> */}
+              {/* <p>{user.customer_surname}</p> */}
+              <p>{user.customer_address}</p>
+              <p>{user.customer_email}</p>
+              <p>{user.role}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

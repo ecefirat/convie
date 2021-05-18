@@ -50,33 +50,30 @@ function History() {
   }, []);
 
   useEffect(() => {
-    async function fetchAPI() {
-      const request = await fetch("http://localhost:5000/history", {
-        method: "POST",
-        body: JSON.stringify({ customer_id: customer_id }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
+    const request = fetch("http://localhost:5000/history", {
+      method: "POST",
+      body: JSON.stringify({ customer_id: customer_id }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.status === 405) {
+          res.json().then((data) => {
+            console.log(data);
+            console.log("this is products data /error 405");
+          });
+        } else if (res.status === 200) {
+          res.json().then((data) => {
+            setHistory(data.history);
+            console.log(data);
+            console.log("history data");
+          });
+        }
       })
-        .then((res) => {
-          if (res.status === 405) {
-            res.json().then((data) => {
-              console.log(data);
-              console.log("this is products data /error 405");
-            });
-          } else if (res.status === 200) {
-            res.json().then((data) => {
-              setHistory(data.history);
-              console.log(data);
-              console.log("history data");
-            });
-          }
-        })
-        .catch((error) => console.log(error));
-      return request;
-    }
-    fetchAPI();
+      .catch((error) => console.log(error));
+    return request;
   }, [customer_id]);
 
   const deleteOrder = (data) => {

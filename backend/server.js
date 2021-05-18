@@ -157,7 +157,6 @@ app.get("/logout", (req, res) => {
 
 app.post(
   "/customerAddress",
-  // body("customer_address").isAlphanumeric(),
   body("customer_address").isLength({ max: 50 }),
 
   (req, res) => {
@@ -313,14 +312,13 @@ app.post("/orders", (req, res) => {
 
 app.post(
   "/pName",
-  // body("customer_address").isAlphanumeric(),
-  // body("customer_address").isLength({ max: 50 }),
+  body("pName").isLength({ max: 30 }),
 
   (req, res) => {
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   return res.status(400).json({ errors: errors.array() });
-    // }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     db.changePName(req, (cb) => {
       if (cb === 400) {
         res.status(400).send({ message: "no change in pname" });
@@ -341,7 +339,11 @@ app.post(
   }
 );
 
-app.post("/uName", (req, res) => {
+app.post("/uName", body("uName").isLength({ max: 20 }), (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   db.changeUName(req, (cb) => {
     if (cb === 400) {
       res.status(400).send({ message: "no change in uname" });
@@ -394,41 +396,57 @@ app.post("/product", (req, res) => {
   });
 });
 
-app.post("/addProduct", (req, res) => {
-  db.addProduct(req, (cb) => {
-    if (cb === 400) {
-      res.status(400).send({ message: "product cannot be added" });
-    } else {
-      res.status(200).send({ pName: cb });
-      logger.info(
-        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
-          req.session.user.customer_name
-        }, Usertype: ${
-          req.session.user.role
-        }, Timestamp: ${new Date().toJSON()}, Action: Add Product`
-      );
+app.post(
+  "/addProduct",
+  body("pName").isLength({ max: 20 }),
+  body("pPrice").isLength({ max: 5 }),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-  });
-});
+    db.addProduct(req, (cb) => {
+      if (cb === 400) {
+        res.status(400).send({ message: "product cannot be added" });
+      } else {
+        res.status(200).send({ pName: cb });
+        logger.info(
+          `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+            req.session.user.customer_name
+          }, Usertype: ${
+            req.session.user.role
+          }, Timestamp: ${new Date().toJSON()}, Action: Add Product`
+        );
+      }
+    });
+  }
+);
 
-app.post("/addAdmin", (req, res) => {
-  db.addAdmin(req, (cb) => {
-    if (cb === 401) {
-      res.status(401).send({ message: "hashing error" });
-    } else if (cb === 400) {
-      res.status(400).send({ message: "admin cannot be added" });
-    } else {
-      res.status(200).send({ admin: cb });
-      logger.info(
-        `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
-          req.session.user.customer_name
-        }, Usertype: ${
-          req.session.user.role
-        }, Timestamp: ${new Date().toJSON()}, Action: Add Admin`
-      );
-    }
-  });
-});
+app.post(
+  "/addAdmin",
+  body("customer_name").isLength({ max: 20 }),
+  body("customer_surname").isLength({ max: 30 }),
+  body("customer_email").isEmail(),
+  body("customer_password").isLength({ min: 8 }),
+  (req, res) => {
+    db.addAdmin(req, (cb) => {
+      if (cb === 401) {
+        res.status(401).send({ message: "hashing error" });
+      } else if (cb === 400) {
+        res.status(400).send({ message: "admin cannot be added" });
+      } else {
+        res.status(200).send({ admin: cb });
+        logger.info(
+          `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
+            req.session.user.customer_name
+          }, Usertype: ${
+            req.session.user.role
+          }, Timestamp: ${new Date().toJSON()}, Action: Add Admin`
+        );
+      }
+    });
+  }
+);
 
 app.get("/sessionInfo", (req, res) => {
   if (req.session.user) {
