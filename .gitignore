@@ -5,6 +5,7 @@ node_modules/
 /.pnp
 .pnp.js
 /excludes
+/backend/log/logger.log
 
 # testing
 /coverage

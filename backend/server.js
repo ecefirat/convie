@@ -63,18 +63,18 @@ app.use(fileUpload({ createParentPath: true }));
 
 const rateLimit = require("express-rate-limit");
 
-// const dayLimiter = rateLimit({
-//   windowMs: 24 * 60 * 60 * 1000, // 24 hours
-//   max: 1000, // 1000 requests
-// });
+const dayLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000, // 24 hours
+  max: 1000, // 1000 requests
+});
 
-// const secondLimiter = rateLimit({
-//   windowMs: 1000, // 1 second
-//   max: 10, // 1 request
-// });
+const secondLimiter = rateLimit({
+  windowMs: 1000, // 1 second
+  max: 10, // 10 request
+});
 
-// app.use(dayLimiter);
-// app.use(secondLimiter);
+app.use(dayLimiter);
+app.use(secondLimiter);
 
 app.post(
   "/register",
@@ -121,6 +121,7 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    console.log(req.body);
     db.loginCustomer(req, (cb) => {
       if (cb === 400) {
         res.status(400).send({ message: "login failed" });
@@ -183,14 +184,13 @@ app.post(
 );
 
 app.post("/picture", async (req, res) => {
-  // implement validation
   try {
     if (!req.files) {
       res.send({ message: "no files" });
-    } else {
+    } else if (req.files.picture.name.endsWith("jpeg")) {
       const { picture } = req.files;
       picture.mv("./uploads/" + picture.name);
-      res.send({ picture });
+      res.status(200).send({ picture });
       logger.info(
         `IP: ${req.ip}, Session: ${req.sessionID}, Username: ${
           req.session.user.customer_name
@@ -198,6 +198,8 @@ app.post("/picture", async (req, res) => {
           req.session.user.role
         }, Timestamp: ${new Date().toJSON()}, Action: Image Upload`
       );
+    } else {
+      res.status(415).send({ message: "wrong file type" });
     }
   } catch (err) {
     res.status(500).send(err);
@@ -205,7 +207,6 @@ app.post("/picture", async (req, res) => {
 });
 
 app.post("/uploads", (req, res) => {
-  // implement validation
   db.changeImage(req, (cb) => {
     if (cb === 404) {
       res.status(404).send({ message: "image update failed" });

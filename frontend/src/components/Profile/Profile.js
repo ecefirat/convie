@@ -25,6 +25,7 @@ function Profile() {
   const [profile_picture, setProfilePicture] = useState("");
   const [customer_email, setCustomerEmail] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [fileTypeError, setFileTypeError] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:5000/sessionInfo", {
@@ -84,15 +85,26 @@ function Profile() {
     formData.append("picture", data.picture[0]);
     console.log(formData);
 
-    const res = await fetch("http://localhost:5000/picture", {
+    fetch("http://localhost:5000/picture", {
       method: "POST",
       body: formData,
       credentials: "include",
-    }).then((res) => res.json());
-    console.log(res);
-    const newImagePath = "http://localhost:5000/uploads/" + res.picture.name;
-    console.log(newImagePath);
-    setImagePath(newImagePath);
+    }).then((res) => {
+      if (res.status === 415) {
+        setFileTypeError(true);
+        console.log(fileTypeError);
+      }
+      if (res.status === 200) {
+        setFileTypeError(false);
+        res.json().then((data) => {
+          console.log(data);
+          const newImagePath =
+            "http://localhost:5000/uploads/" + data.picture.name;
+          console.log(newImagePath);
+          setImagePath(newImagePath);
+        });
+      }
+    });
   };
 
   const changeImage = (data) => {
@@ -119,7 +131,6 @@ function Profile() {
     });
   };
 
-  // not finished and tested yet
   const deleteAccount = (data) => {
     fetch("http://localhost:5000/account", {
       method: "POST",
@@ -135,6 +146,7 @@ function Profile() {
         res.json().then((data) => {
           console.log(data);
           console.log("account deleted");
+          history.push("/login");
         });
       }
     });
@@ -214,7 +226,7 @@ function Profile() {
           <input
             type="file"
             name="picture"
-            accept=".jpg, .jpeg, .png"
+            accept=".jpeg"
             ref={register}
             style={{ marginBottom: 15 }}
           />
@@ -224,6 +236,7 @@ function Profile() {
             onClick={handleSubmit(uploadImage)}>
             upload
           </button>
+          {fileTypeError ? <span>Please upload .jpeg file.</span> : null}
           {imagePath ? (
             <>
               <img src={imagePath} alt="img" width="200px" height="200px" />
