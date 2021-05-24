@@ -76,7 +76,11 @@ function AdminProducts(props) {
               type="text"
               name="pName"
               value={pName}
-              ref={register}
+              ref={register({
+                pattern: /^[A-Z]{1}[A-Z a-z]{2,}/,
+                maxlength: 25,
+                minLength: 2,
+              })}
               onChange={(e) => setPName(e.target.value)}
               onKeyPress={(e) => {
                 if (e.which === 13) {

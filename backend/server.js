@@ -187,7 +187,7 @@ app.post("/picture", async (req, res) => {
   try {
     if (!req.files) {
       res.send({ message: "no files" });
-    } else {
+    } else if (req.files.picture.name.endsWith("jpeg")) {
       const { picture } = req.files;
       picture.mv("./uploads/" + picture.name);
       res.send({ picture });
@@ -198,6 +198,8 @@ app.post("/picture", async (req, res) => {
           req.session.user.role
         }, Timestamp: ${new Date().toJSON()}, Action: Image Upload`
       );
+    } else {
+      res.status(415).send({ message: "wrong file type" });
     }
   } catch (err) {
     res.status(500).send(err);

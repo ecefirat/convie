@@ -90,6 +90,9 @@ function Login(props) {
                 name="email"
                 ref={register({
                   required: true,
+                  pattern: /[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$/,
+                  minLength: 10,
+                  maxLength: 50,
                 })}
               />
               {/* {errors.email && ("dkjfs")} */}
@@ -106,6 +109,7 @@ function Login(props) {
                 name="password"
                 ref={register({
                   required: true,
+                  pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
                 })}
               />
               <span id="loginError">
@@ -124,12 +128,9 @@ function Login(props) {
             Login
             <i className="material-icons right">send</i>
           </button>
-          <div style={{ columnCount: 2, columnGap: 10, marginBottom: 40 }}>
+          <div style={{ marginTop: 10, marginBottom: 40 }}>
             Don't have an account?
-            <Link to="/register">
-              {props.register}
-              Register here!
-            </Link>
+            <Link to="/register">{props.register} Register here!</Link>
           </div>
         </form>
       </div>
