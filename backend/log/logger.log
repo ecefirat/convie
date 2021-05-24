@@ -1,0 +1,3 @@
+{"message":"IP: ::1, Session: e5VgPmrF8Z5Gu1EjTA9gsBe37-aTP9JF, Username: Admin, Usertype: admin, Timestamp: 2021-05-24T00:24:12.015Z, Action: Login","level":"info"}
+{"message":"IP: ::1, Session: e5VgPmrF8Z5Gu1EjTA9gsBe37-aTP9JF, Username: Admin, Usertype: admin, Timestamp: 2021-05-24T00:24:16.818Z, Action: Order","level":"info"}
+{"message":"IP: ::1, Session: e5VgPmrF8Z5Gu1EjTA9gsBe37-aTP9JF, Username: Admin, Usertype: admin, Timestamp: 2021-05-24T00:24:21.852Z, Action: Logout","level":"info"}

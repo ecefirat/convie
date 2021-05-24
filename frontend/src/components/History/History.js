@@ -43,7 +43,7 @@ function History() {
       } else if (res.status === 400) {
         res.json().then((data) => {
           console.log(data);
-          historyPush.push("/login");
+          history.push("/login");
         });
       }
     });

@@ -63,7 +63,7 @@ const loginCustomer = (req, cb) => {
     "SELECT customer_id, customer_name, customer_surname, customer_email, customer_address, profile_picture, role FROM customers WHERE customer_email = ?";
 
   db.query(checkCustomer, [email], (err, result) => {
-    console.log(result);
+    // console.log(result);
     if (err) {
       cb(400);
       console.log(err);

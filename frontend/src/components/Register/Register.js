@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function Register(props) {
   let history = useHistory();
@@ -172,11 +172,10 @@ function Register(props) {
           Register
           <i className="material-icons right">send</i>
         </button>
-        <div style={{ marginTop: 10, marginBottom: 40 }}>
-          Already have an account?
-          <Link to="/login">{props.login} Login here!</Link>
-        </div>
       </form>
+      <div className="mt-2">
+        <span>Already have an account? Login here</span>
+      </div>
     </div>
   );
 }
