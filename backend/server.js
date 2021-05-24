@@ -312,6 +312,25 @@ app.post("/orders", (req, res) => {
   });
 });
 
+app.get("/onlyAdmin", (req, res) => {
+  console.log(req.ip);
+  console.log("server ip");
+  let whiteList = ["::192.168.1.110", "::1", "::ffff:127.0.0.1"];
+  let comingIp = req.ip;
+  let checkIP = whiteList.includes(comingIp);
+  console.log(req.session.user.role);
+  console.log(checkIP);
+  if (req.session.user.role === "admin") {
+    if (checkIP === true) {
+      res.status(200).send({ message: "allowed" });
+    } else if (checkIP === false) {
+      res.status(403).send({ message: "not allowed" });
+    }
+  } else if (req.session.user.role === "customer") {
+    res.status(403).send({ message: "customer account" });
+  }
+});
+
 app.post(
   "/pName",
   body("pName").isLength({ max: 30 }),

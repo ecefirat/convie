@@ -17,6 +17,7 @@ const Admin = (props) => {
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
   const [adminName, setAdminName] = useState("");
+  const [welcomeMsg, setWelcomeMsg] = useState();
 
   useEffect(() => {
     async function fetchSes() {
@@ -45,6 +46,26 @@ const Admin = (props) => {
       return req;
     }
     fetchSes();
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/onlyAdmin", {
+      method: "GET",
+      body: JSON.stringify(),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    }).then((res) => {
+      console.log(res);
+      if (res.status === 403) {
+        history.push("/login");
+      } else if (res.status === 200) {
+        res.json().then((data) => {
+          setWelcomeMsg("Welcome to the admin panel");
+        });
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -152,8 +173,9 @@ const Admin = (props) => {
 
   return (
     <>
-      <h2>Users</h2>
-      <h5>Add New Admin</h5>
+      <p style={{ marginBottom: 5 }}>{welcomeMsg}</p>
+      <h3 style={{ marginTop: 0 }}>Users</h3>
+      <h6>Add New Admin</h6>
       <input
         type="text"
         name="customer_name"

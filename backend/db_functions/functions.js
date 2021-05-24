@@ -220,8 +220,8 @@ const orderHistory = (req, cb) => {
       cb(405);
       console.log(err);
     } else if (results.length > 0) {
-      console.log(results);
-      console.log("above");
+      // console.log(results);
+      // console.log("above");
       cb(results);
     } else if ((results.length = 0)) {
       cb(404);
